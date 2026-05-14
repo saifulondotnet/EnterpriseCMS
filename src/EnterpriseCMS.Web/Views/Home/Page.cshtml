@@ -1,0 +1,25 @@
+@using EnterpriseCMS.Application.Common.Models
+@addTagHelper *, EnterpriseCMS.Web
+@model ContentDto
+@{
+    ViewData["Title"] = Model.MetaTitle ?? Model.Title;
+}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="fw-bold mb-3">@Model.Title</h1>
+            @if (Model.PublishedAt.HasValue)
+            {
+                <p class="text-muted mb-4"><i class="bi bi-calendar me-1"></i>@Model.PublishedAt.Value.ToString("MMMM d, yyyy")</p>
+            }
+            @if (!string.IsNullOrEmpty(Model.Blocks) && Model.Blocks != "[]")
+            {
+                <cms-blocks blocks-json="@Model.Blocks"></cms-blocks>
+            }
+            else if (!string.IsNullOrEmpty(Model.Body))
+            {
+                <div class="cms-richtext">@Html.Raw(Model.Body)</div>
+            }
+        </div>
+    </div>
+</div>

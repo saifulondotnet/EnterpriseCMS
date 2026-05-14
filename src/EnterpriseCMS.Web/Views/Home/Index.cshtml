@@ -1,0 +1,41 @@
+@using EnterpriseCMS.Application.Common.Models
+@model EnterpriseCMS.Application.Common.Models.PagedResult<ContentDto>
+@{
+    ViewData["Title"] = "Home";
+}
+<section class="hero">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-3">Welcome to EnterpriseCMS</h1>
+        <p class="lead mb-4">A powerful, flexible content management platform for enterprise.</p>
+        <a href="/Admin" class="btn btn-light btn-lg">Get Started</a>
+    </div>
+</section>
+<section class="py-5">
+    <div class="container">
+        <h2 class="mb-4 fw-bold">Latest Posts</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var post in Model.Items)
+            {
+                <div class="col">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <span class="badge bg-primary mb-2">@post.ContentType</span>
+                            <h5 class="card-title"><a href="/@post.Slug" class="text-decoration-none text-dark">@post.Title</a></h5>
+                            @if (!string.IsNullOrEmpty(post.Excerpt))
+                            {
+                                <p class="card-text text-muted small">@post.Excerpt</p>
+                            }
+                        </div>
+                        <div class="card-footer bg-transparent border-0">
+                            <small class="text-muted">@post.PublishedAt?.ToString("MMMM d, yyyy")</small>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (!Model.Items.Any())
+            {
+                <div class="col-12 text-muted">No posts published yet.</div>
+            }
+        </div>
+    </div>
+</section>
