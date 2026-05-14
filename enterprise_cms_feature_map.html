@@ -1,0 +1,215 @@
+
+<style>
+:root { --gap: 10px; }
+.pillar { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px; }
+.pillar-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); display: flex; align-items: center; gap: 7px; margin-bottom: 10px; }
+.pillar-title i { font-size: 18px; }
+.feature-item { font-size: 12px; color: var(--color-text-secondary); padding: 4px 0; border-bottom: 0.5px solid var(--color-border-tertiary); line-height: 1.5; cursor: pointer; transition: color .15s; }
+.feature-item:last-child { border-bottom: none; }
+.feature-item:hover { color: var(--color-text-primary); }
+.badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 8px; margin-left: 4px; vertical-align: middle; font-weight: 500; }
+.badge-new { background: var(--color-background-success); color: var(--color-text-success); }
+.badge-hot { background: var(--color-background-warning); color: var(--color-text-warning); }
+.badge-sec { background: var(--color-background-danger); color: var(--color-text-danger); }
+.section-header { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: .06em; margin: 14px 0 6px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); }
+.hero { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 16px 20px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.hero h1 { font-size: 16px; font-weight: 500; margin: 0 0 4px; color: var(--color-text-primary); }
+.hero p { font-size: 12px; color: var(--color-text-secondary); margin: 0; }
+.stat { text-align: center; }
+.stat-n { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+.stat-l { font-size: 11px; color: var(--color-text-tertiary); }
+</style>
+
+<h2 class="sr-only">Enterprise CMS Feature Map — 9 pillars covering content, identity, multi-tenancy, security, AI, API, and operations</h2>
+
+<div class="hero">
+  <div>
+    <h1><i class="ti ti-layout-dashboard" aria-hidden="true" style="font-size:16px;vertical-align:-2px;margin-right:6px"></i>Enterprise CMS — .NET 9 / ASP.NET MVC</h1>
+    <p>Feature map across 9 architectural pillars — click any feature to explore further</p>
+  </div>
+  <div style="display:flex;gap:20px;flex-shrink:0">
+    <div class="stat"><div class="stat-n">9</div><div class="stat-l">Pillars</div></div>
+    <div class="stat"><div class="stat-n">70+</div><div class="stat-l">Features</div></div>
+    <div class="stat"><div class="stat-n">.NET 9</div><div class="stat-l">Platform</div></div>
+  </div>
+</div>
+
+<div class="section-header"><i class="ti ti-pencil" aria-hidden="true"></i> Content &amp; Experience</div>
+<div class="grid-3">
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#534AB7"><i class="ti ti-file-text" style="color:#534AB7" aria-hidden="true"></i>Content Studio</div>
+  <div class="feature-item" onclick="sendPrompt('Tell me about block-based page builder with drag and drop in enterprise CMS')">Block-based page builder (drag &amp; drop) <span class="badge badge-hot">hot</span></div>
+  <div class="feature-item" onclick="sendPrompt('How does rich text editor work in CMS?')">Rich text / WYSIWYG editor (Quill/TipTap)</div>
+  <div class="feature-item" onclick="sendPrompt('Explain content versioning and history in CMS')">Version history &amp; content diff</div>
+  <div class="feature-item" onclick="sendPrompt('What is content scheduling and publishing workflow?')">Scheduled publishing &amp; expiry</div>
+  <div class="feature-item" onclick="sendPrompt('How do content templates work in enterprise CMS?')">Reusable content templates &amp; partials</div>
+  <div class="feature-item" onclick="sendPrompt('Explain multi-language and localization in CMS')">Multi-language / i18n support</div>
+  <div class="feature-item" onclick="sendPrompt('What are content workflows and approval in CMS?')">Approval workflow (draft → review → publish)</div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#0F6E56"><i class="ti ti-photo" style="color:#0F6E56" aria-hidden="true"></i>Media &amp; Assets</div>
+  <div class="feature-item" onclick="sendPrompt('Explain digital asset management DAM in CMS')">Digital Asset Manager (DAM) <span class="badge badge-hot">hot</span></div>
+  <div class="feature-item" onclick="sendPrompt('How does image processing and auto resize work?')">Auto image resize, crop, WebP conversion</div>
+  <div class="feature-item" onclick="sendPrompt('What is CDN integration in CMS?')">CDN integration (Azure CDN / CloudFront)</div>
+  <div class="feature-item" onclick="sendPrompt('How does video streaming work in enterprise CMS?')">Video &amp; document streaming support</div>
+  <div class="feature-item" onclick="sendPrompt('Explain folder and tag-based asset organisation in CMS')">Folder hierarchy &amp; tag-based search</div>
+  <div class="feature-item" onclick="sendPrompt('What is AI alt-text generation for images?')">AI-powered alt-text generation <span class="badge badge-new">AI</span></div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#993C1D"><i class="ti ti-template" style="color:#993C1D" aria-hidden="true"></i>Theme &amp; Design</div>
+  <div class="feature-item" onclick="sendPrompt('How does theme engine work in .NET CMS?')">Razor-based theme engine (like WordPress)</div>
+  <div class="feature-item" onclick="sendPrompt('Explain CSS variables and design tokens in CMS themes')">Design token system (CSS variables)</div>
+  <div class="feature-item" onclick="sendPrompt('What is visual theme customiser in CMS?')">Live theme customiser (colour, font, layout)</div>
+  <div class="feature-item" onclick="sendPrompt('How does child theme and theme inheritance work?')">Child themes &amp; theme inheritance</div>
+  <div class="feature-item" onclick="sendPrompt('Explain responsive layout preview in CMS')">Responsive preview (mobile / tablet / desktop)</div>
+  <div class="feature-item" onclick="sendPrompt('What is dark mode support in CMS theme?')">Dark mode &amp; accessibility themes</div>
+</div>
+</div>
+
+<div class="section-header"><i class="ti ti-users" aria-hidden="true"></i> Identity, Access &amp; Multi-tenancy</div>
+<div class="grid-3">
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#185FA5"><i class="ti ti-shield-lock" style="color:#185FA5" aria-hidden="true"></i>Identity &amp; Auth</div>
+  <div class="feature-item" onclick="sendPrompt('How does SSO and OAuth2 OIDC work in enterprise CMS?')">SSO — OAuth2 / OIDC / SAML 2.0 <span class="badge badge-sec">security</span></div>
+  <div class="feature-item" onclick="sendPrompt('Explain RBAC and permission system in CMS')">RBAC + attribute-based access (ABAC)</div>
+  <div class="feature-item" onclick="sendPrompt('What is MFA support in enterprise CMS?')">MFA — TOTP, SMS, email OTP</div>
+  <div class="feature-item" onclick="sendPrompt('How does ASP.NET Identity work with custom CMS?')">ASP.NET Identity + custom claims pipeline</div>
+  <div class="feature-item" onclick="sendPrompt('Explain session management and token refresh in CMS')">JWT + refresh token rotation</div>
+  <div class="feature-item" onclick="sendPrompt('What is audit log for user actions in CMS?')">Tamper-proof audit trail (who did what)</div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#3B6D11"><i class="ti ti-building" style="color:#3B6D11" aria-hidden="true"></i>Multi-tenancy</div>
+  <div class="feature-item" onclick="sendPrompt('How does multi-tenant architecture work in .NET CMS?')">Tenant-per-site or shared-DB isolation <span class="badge badge-hot">hot</span></div>
+  <div class="feature-item" onclick="sendPrompt('Explain tenant onboarding wizard in CMS')">Self-service tenant onboarding wizard</div>
+  <div class="feature-item" onclick="sendPrompt('What is white-label and custom domain per tenant?')">Custom domain + white-label branding</div>
+  <div class="feature-item" onclick="sendPrompt('How does tenant-level settings override work in CMS?')">Tenant-scoped settings &amp; feature flags</div>
+  <div class="feature-item" onclick="sendPrompt('Explain resource quota and rate limiting per tenant')">Per-tenant quota &amp; rate limiting</div>
+  <div class="feature-item" onclick="sendPrompt('How does billing per tenant work in SaaS CMS?')">Billing &amp; subscription per tenant</div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#854F0B"><i class="ti ti-user-cog" style="color:#854F0B" aria-hidden="true"></i>User &amp; Member Mgmt</div>
+  <div class="feature-item" onclick="sendPrompt('How does front-end member portal work in CMS?')">Front-end member registration &amp; portal</div>
+  <div class="feature-item" onclick="sendPrompt('What is user profile management in CMS?')">User profile &amp; preference management</div>
+  <div class="feature-item" onclick="sendPrompt('Explain social login integration in CMS')">Social login (Google, Microsoft, GitHub)</div>
+  <div class="feature-item" onclick="sendPrompt('What is content gating and paywall in CMS?')">Content gating &amp; paywall support</div>
+  <div class="feature-item" onclick="sendPrompt('How does group and team management work in enterprise CMS?')">Group / team management &amp; delegation</div>
+</div>
+</div>
+
+<div class="section-header"><i class="ti ti-api" aria-hidden="true"></i> Developer Platform &amp; Integrations</div>
+<div class="grid-4">
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#534AB7"><i class="ti ti-api" style="color:#534AB7" aria-hidden="true"></i>Headless API</div>
+  <div class="feature-item" onclick="sendPrompt('How does REST and GraphQL headless CMS work in .NET?')">REST + GraphQL content delivery <span class="badge badge-hot">hot</span></div>
+  <div class="feature-item" onclick="sendPrompt('Explain OData support in .NET CMS')">OData query support</div>
+  <div class="feature-item" onclick="sendPrompt('What is Swagger OpenAPI documentation in CMS?')">Swagger / OpenAPI auto-docs</div>
+  <div class="feature-item" onclick="sendPrompt('How does webhook delivery work in CMS?')">Webhook delivery system</div>
+  <div class="feature-item" onclick="sendPrompt('Explain API key and OAuth client credentials for CMS')">API key + OAuth client credentials</div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#0F6E56"><i class="ti ti-plug" style="color:#0F6E56" aria-hidden="true"></i>Plugin / Extension</div>
+  <div class="feature-item" onclick="sendPrompt('How does plugin architecture work in .NET CMS like WordPress?')">WordPress-style plugin marketplace <span class="badge badge-new">new</span></div>
+  <div class="feature-item" onclick="sendPrompt('Explain hook and event system in CMS plugin architecture')">Hook &amp; event-driven extensibility</div>
+  <div class="feature-item" onclick="sendPrompt('What is admin UI injection for plugins in CMS?')">Admin UI injection points</div>
+  <div class="feature-item" onclick="sendPrompt('How does NuGet-based plugin distribution work?')">NuGet-based plugin distribution</div>
+  <div class="feature-item" onclick="sendPrompt('How does plugin sandboxing work in CMS?')">Plugin sandboxing &amp; permission scope</div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#993C1D"><i class="ti ti-refresh" style="color:#993C1D" aria-hidden="true"></i>Integrations</div>
+  <div class="feature-item" onclick="sendPrompt('How to integrate CRM like Salesforce with CMS?')">CRM (Salesforce, HubSpot) sync</div>
+  <div class="feature-item" onclick="sendPrompt('How to integrate email marketing with CMS?')">Email (Mailchimp, SendGrid) integration</div>
+  <div class="feature-item" onclick="sendPrompt('Explain payment gateway integration in CMS')">Payment gateways (Stripe, PayPal)</div>
+  <div class="feature-item" onclick="sendPrompt('How does analytics integration work in CMS?')">Analytics (GA4, Mixpanel, Matomo)</div>
+  <div class="feature-item" onclick="sendPrompt('Explain ERP and BPM integration with enterprise CMS')">ERP / BPM connector (via Apache Camel)</div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#185FA5"><i class="ti ti-robot" style="color:#185FA5" aria-hidden="true"></i>AI / Smart Features</div>
+  <div class="feature-item" onclick="sendPrompt('What AI content generation features can be in CMS?')">AI content generation (Claude / GPT) <span class="badge badge-new">AI</span></div>
+  <div class="feature-item" onclick="sendPrompt('How does AI SEO suggestion work in CMS?')">AI SEO meta &amp; keyword suggestions</div>
+  <div class="feature-item" onclick="sendPrompt('What is semantic search in CMS?')">Semantic search (vector embeddings)</div>
+  <div class="feature-item" onclick="sendPrompt('How does AI chatbot work with CMS content?')">AI chatbot trained on site content</div>
+  <div class="feature-item" onclick="sendPrompt('Explain smart content personalisation in CMS')">Smart personalisation engine</div>
+</div>
+</div>
+
+<div class="section-header"><i class="ti ti-shield" aria-hidden="true"></i> Security, Compliance &amp; Performance</div>
+<div class="grid-3">
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#A32D2D"><i class="ti ti-lock" style="color:#A32D2D" aria-hidden="true"></i>Security <span class="badge badge-sec">critical</span></div>
+  <div class="feature-item" onclick="sendPrompt('What security headers should enterprise CMS implement?')">CSP, HSTS, X-Frame-Options headers</div>
+  <div class="feature-item" onclick="sendPrompt('How does SQL injection and XSS protection work in .NET CMS?')">SQL injection, XSS, CSRF protection</div>
+  <div class="feature-item" onclick="sendPrompt('Explain data encryption at rest and in transit in CMS')">AES-256 at rest, TLS 1.3 in transit</div>
+  <div class="feature-item" onclick="sendPrompt('What is secrets management in .NET enterprise CMS?')">Secrets management (Azure Key Vault)</div>
+  <div class="feature-item" onclick="sendPrompt('Explain penetration testing and vulnerability scanning for CMS')">OWASP Top 10 compliance &amp; pen-test ready</div>
+  <div class="feature-item" onclick="sendPrompt('How does IP allowlisting and WAF work with CMS?')">WAF &amp; IP allowlisting support</div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#3B6D11"><i class="ti ti-certificate" style="color:#3B6D11" aria-hidden="true"></i>Compliance</div>
+  <div class="feature-item" onclick="sendPrompt('How does GDPR compliance work in CMS?')">GDPR — consent banner, data erasure <span class="badge badge-sec">legal</span></div>
+  <div class="feature-item" onclick="sendPrompt('Explain cookie consent management in CMS')">Cookie consent management (PECR/ePrivacy)</div>
+  <div class="feature-item" onclick="sendPrompt('What is WCAG accessibility compliance in CMS?')">WCAG 2.2 AA accessibility</div>
+  <div class="feature-item" onclick="sendPrompt('How does data retention policy work in enterprise CMS?')">Data retention &amp; right-to-be-forgotten</div>
+  <div class="feature-item" onclick="sendPrompt('Explain SOC2 and ISO27001 readiness for CMS?')">SOC 2 / ISO 27001 audit logging</div>
+  <div class="feature-item" onclick="sendPrompt('What is PDPA compliance for Bangladesh government CMS?')">PDPA / local data sovereignty support</div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#185FA5"><i class="ti ti-bolt" style="color:#185FA5" aria-hidden="true"></i>Performance &amp; Infra</div>
+  <div class="feature-item" onclick="sendPrompt('How does output caching and Redis work in .NET 9 CMS?')">Output cache + Redis distributed cache</div>
+  <div class="feature-item" onclick="sendPrompt('What is static site generation SSG in .NET CMS?')">Static page generation (SSG) option</div>
+  <div class="feature-item" onclick="sendPrompt('How does background job queue work in enterprise CMS?')">Background job queue (Hangfire / Quartz)</div>
+  <div class="feature-item" onclick="sendPrompt('Explain auto-scaling and load balancing for .NET CMS')">Docker / K8s horizontal auto-scaling</div>
+  <div class="feature-item" onclick="sendPrompt('How does database partitioning work in high-traffic CMS?')">DB read replicas &amp; partitioning</div>
+  <div class="feature-item" onclick="sendPrompt('What is health check and observability in enterprise CMS?')">Health checks, metrics (Prometheus + Grafana)</div>
+</div>
+</div>
+
+<div class="section-header"><i class="ti ti-chart-bar" aria-hidden="true"></i> SEO, Analytics &amp; Operations</div>
+<div class="grid-2">
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#534AB7"><i class="ti ti-search" style="color:#534AB7" aria-hidden="true"></i>SEO &amp; Discoverability</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 12px">
+    <div class="feature-item" onclick="sendPrompt('How does meta tag management work in CMS?')">Meta / Open Graph manager</div>
+    <div class="feature-item" onclick="sendPrompt('What is XML sitemap generation in CMS?')">Auto XML sitemap generation</div>
+    <div class="feature-item" onclick="sendPrompt('Explain canonical URL and redirect manager in CMS')">Canonical URL + redirect manager</div>
+    <div class="feature-item" onclick="sendPrompt('How does structured data schema.org work in CMS?')">Schema.org structured data (JSON-LD)</div>
+    <div class="feature-item" onclick="sendPrompt('What is robots.txt management in CMS?')">robots.txt management</div>
+    <div class="feature-item" onclick="sendPrompt('How does Core Web Vitals and page speed optimisation work?')">Core Web Vitals optimisation</div>
+  </div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#854F0B"><i class="ti ti-settings" style="color:#854F0B" aria-hidden="true"></i>Ops &amp; Admin</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 12px">
+    <div class="feature-item" onclick="sendPrompt('What is admin dashboard design for enterprise CMS?')">Role-based admin dashboard</div>
+    <div class="feature-item" onclick="sendPrompt('How does automated backup and restore work in CMS?')">Automated backup &amp; point-in-time restore</div>
+    <div class="feature-item" onclick="sendPrompt('Explain feature flag management in enterprise CMS')">Feature flag management</div>
+    <div class="feature-item" onclick="sendPrompt('What is email notification system in CMS?')">Transactional email (template-based)</div>
+    <div class="feature-item" onclick="sendPrompt('How does CI/CD pipeline work for CMS deployment?')">CI/CD pipeline (GitHub Actions / Azure DevOps)</div>
+    <div class="feature-item" onclick="sendPrompt('What is centralised logging in enterprise CMS?')">Centralised logging (Seq / ELK stack)</div>
+  </div>
+</div>
+</div>
+
+<div style="margin-top:14px;padding:10px 14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);font-size:12px;color:var(--color-text-secondary);display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+  <span><i class="ti ti-mouse" aria-hidden="true" style="font-size:14px;vertical-align:-2px"></i> Click any feature to dive deeper</span>
+  <span class="badge badge-hot" style="font-size:11px">hot</span><span style="font-size:11px">High-priority features</span>
+  <span class="badge badge-new" style="font-size:11px">AI</span><span style="font-size:11px">AI-powered capabilities</span>
+  <span class="badge badge-sec" style="font-size:11px">security</span><span style="font-size:11px">Compliance-critical</span>
+</div>

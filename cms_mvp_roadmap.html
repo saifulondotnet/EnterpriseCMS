@@ -1,0 +1,386 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px}
+.badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:8px;font-weight:500;white-space:nowrap}
+.b-mvp{background:#EEEDFE;color:#3C3489}
+.b-post{background:#F1EFE8;color:#444441}
+.b-core{background:#E1F5EE;color:#085041}
+.b-phase{background:#FAEEDA;color:#633806}
+.tab-bar{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.tab{font-size:12px;padding:6px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);cursor:pointer;color:var(--color-text-secondary);background:var(--color-background-primary);transition:all .15s}
+.tab.active{background:#534AB7;color:#EEEDFE;border-color:#534AB7}
+.view{display:none}
+.view.active{display:block}
+.pillar-row{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr);gap:8px;margin-bottom:6px;align-items:start}
+.plabel{font-size:12px;font-weight:500;color:var(--color-text-primary);display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:var(--border-radius-md);background:var(--color-background-secondary)}
+.flist{font-size:11px;color:var(--color-text-secondary);padding:6px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);line-height:1.9}
+.flist.mvp-col{border-color:#AFA9EC;background:#EEEDFE22}
+.flist.post-col{background:var(--color-background-secondary)}
+.check{color:#0F6E56;font-size:13px}
+.dash{color:var(--color-text-tertiary)}
+.sprint-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.sprint{border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);overflow:hidden}
+.sprint-head{padding:10px 12px;font-size:12px;font-weight:500}
+.sprint-body{padding:10px 12px}
+.sprint-item{font-size:11px;color:var(--color-text-secondary);padding:3px 0;border-bottom:0.5px solid var(--color-border-tertiary);line-height:1.5;display:flex;align-items:baseline;gap:5px}
+.sprint-item:last-child{border-bottom:none}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.d-pu{background:#534AB7}.d-te{background:#0F6E56}.d-co{background:#993C1D}.d-bl{background:#185FA5}.d-am{background:#854F0B}
+.phase-bar{height:6px;border-radius:3px;margin:8px 0}
+.stat-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px;text-align:center}
+.stat-n{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.stat-l{font-size:11px;color:var(--color-text-tertiary);margin-top:2px}
+.timeline-row{display:grid;grid-template-columns:100px repeat(6,minmax(0,1fr));gap:4px;margin-bottom:4px;align-items:center}
+.tl-label{font-size:11px;color:var(--color-text-secondary);text-align:right;padding-right:8px}
+.tl-bar{height:28px;border-radius:var(--border-radius-md);display:flex;align-items:center;padding:0 8px;font-size:10px;font-weight:500}
+.tl-empty{height:28px}
+.month-header{display:grid;grid-template-columns:100px repeat(6,minmax(0,1fr));gap:4px;margin-bottom:8px}
+.mh{font-size:10px;color:var(--color-text-tertiary);text-align:center;font-weight:500}
+.risk-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.risk-card{border-radius:var(--border-radius-md);padding:10px 12px;border:0.5px solid var(--color-border-tertiary)}
+.risk-title{font-size:12px;font-weight:500;margin-bottom:6px}
+.risk-item{font-size:11px;color:var(--color-text-secondary);padding:2px 0;line-height:1.5}
+</style>
+
+<h2 class="sr-only">Enterprise CMS MVP plan — feature classification across 11 pillars, 6-month sprint plan, Gantt timeline, and risk register</h2>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="show('scope')"><i class="ti ti-layout-list" aria-hidden="true" style="font-size:13px;vertical-align:-1px;margin-right:4px"></i>MVP vs post-MVP scope</button>
+  <button class="tab" onclick="show('sprints')"><i class="ti ti-list-check" aria-hidden="true" style="font-size:13px;vertical-align:-1px;margin-right:4px"></i>Sprint plan</button>
+  <button class="tab" onclick="show('timeline')"><i class="ti ti-calendar" aria-hidden="true" style="font-size:13px;vertical-align:-1px;margin-right:4px"></i>Gantt timeline</button>
+  <button class="tab" onclick="show('risks')"><i class="ti ti-alert-triangle" aria-hidden="true" style="font-size:13px;vertical-align:-1px;margin-right:4px"></i>Risks &amp; decisions</button>
+</div>
+
+<div id="scope" class="view active">
+  <div class="stat-row">
+    <div class="stat"><div class="stat-n" style="color:#534AB7">5</div><div class="stat-l">MVP pillars (core)</div></div>
+    <div class="stat"><div class="stat-n" style="color:#534AB7">42</div><div class="stat-l">MVP features</div></div>
+    <div class="stat"><div class="stat-n" style="color:#5F5E5A">6</div><div class="stat-l">Post-MVP pillars</div></div>
+    <div class="stat"><div class="stat-n" style="color:#5F5E5A">6 mo</div><div class="stat-l">MVP timeline</div></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr);gap:8px;margin-bottom:8px">
+    <div style="font-size:11px;font-weight:500;color:var(--color-text-tertiary);padding:0 10px">Pillar</div>
+    <div style="font-size:11px;font-weight:500;color:#3C3489;padding:0 10px;display:flex;align-items:center;gap:5px"><i class="ti ti-circle-check" aria-hidden="true"></i> MVP — build now</div>
+    <div style="font-size:11px;font-weight:500;color:var(--color-text-tertiary);padding:0 10px;display:flex;align-items:center;gap:5px"><i class="ti ti-clock" aria-hidden="true"></i> Post-MVP — add later</div>
+  </div>
+
+  <div class="pillar-row">
+    <div class="plabel" style="background:#EEEDFE;color:#3C3489"><i class="ti ti-file-text" aria-hidden="true" style="font-size:15px"></i>Content Studio <span class="badge b-mvp">MVP pillar</span></div>
+    <div class="flist mvp-col">Block-based page builder<br>Rich text / WYSIWYG editor<br>Version history &amp; diff<br>Scheduled publish &amp; expiry<br>Autosave &amp; recovery<br>Quick edit &amp; bulk edit<br>Custom fields / metadata<br>Draft → Review → Publish flow<br>Content preview</div>
+    <div class="flist post-col">Shortcodes &amp; embeds<br>Reusable patterns library<br>Multi-language / i18n<br>Password-protected content<br>Content import / export<br>AI content generation</div>
+  </div>
+
+  <div class="pillar-row">
+    <div class="plabel" style="background:#EEEDFE;color:#3C3489"><i class="ti ti-photo" aria-hidden="true" style="font-size:15px"></i>Media &amp; Assets <span class="badge b-mvp">MVP pillar</span></div>
+    <div class="flist mvp-col">File upload (image, video, doc)<br>Auto resize, crop, WebP<br>Featured image / thumbnail<br>Lazy loading<br>Alt text support<br>Basic folder organisation</div>
+    <div class="flist post-col">Full DAM with tag search<br>In-admin image editor<br>AI alt-text generation<br>CDN integration<br>External storage (S3, Azure Blob)<br>Video streaming</div>
+  </div>
+
+  <div class="pillar-row">
+    <div class="plabel" style="background:#EEEDFE;color:#3C3489"><i class="ti ti-template" aria-hidden="true" style="font-size:15px"></i>Theme &amp; Design <span class="badge b-mvp">MVP pillar</span></div>
+    <div class="flist mvp-col">Razor-based theme engine<br>2–3 starter themes bundled<br>Custom menu builder<br>Widget areas system<br>Header / footer templates<br>Responsive layout preview<br>Custom CSS per site</div>
+    <div class="flist post-col">Live theme customiser<br>Design token / CSS variable system<br>Child themes &amp; inheritance<br>Dark mode support<br>Non-destructive theme switching<br>Global styles &amp; typography<br>Theme marketplace</div>
+  </div>
+
+  <div class="pillar-row">
+    <div class="plabel" style="background:#EEEDFE;color:#3C3489"><i class="ti ti-shield-lock" aria-hidden="true" style="font-size:15px"></i>Identity &amp; Auth <span class="badge b-mvp">MVP pillar</span></div>
+    <div class="flist mvp-col">ASP.NET Identity + JWT<br>5 built-in roles (Admin→Subscriber)<br>Custom roles &amp; capabilities<br>Self-service password reset<br>Login throttle &amp; brute-force guard<br>Basic audit trail<br>HTTPS / TLS 1.3 enforced</div>
+    <div class="flist post-col">SSO — OAuth2 / OIDC / SAML<br>MFA (TOTP, SMS, OTP)<br>Social login<br>ABAC attribute-based access<br>Active Directory / LDAP<br>Tamper-proof audit log</div>
+  </div>
+
+  <div class="pillar-row">
+    <div class="plabel" style="background:#EEEDFE;color:#3C3489"><i class="ti ti-lock" aria-hidden="true" style="font-size:15px"></i>Security &amp; Core Ops <span class="badge b-mvp">MVP pillar</span></div>
+    <div class="flist mvp-col">XSS, CSRF, SQLi protection<br>CSP + HSTS headers<br>CAPTCHA on public forms<br>File permission hardening<br>GDPR consent banner<br>robots.txt + XML sitemap<br>Maintenance &amp; debug mode<br>Automated DB backup<br>Health check endpoint<br>Centralised error logging</div>
+    <div class="flist post-col">WAF + IP allowlisting<br>Malware scanning<br>Azure Key Vault secrets<br>WCAG 2.2 AA full audit<br>SOC 2 / ISO 27001 logging<br>PDPA / data sovereignty<br>AMP support<br>CI/CD pipeline</div>
+  </div>
+
+  <div style="margin:10px 0 6px;font-size:11px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:.05em">Post-MVP pillars — full pillars deferred</div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+    <div class="card" style="padding:10px 12px">
+      <div style="font-size:12px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:6px"><i class="ti ti-building" aria-hidden="true" style="color:#3B6D11;font-size:15px"></i>Multi-tenancy <span class="badge b-post">Phase 2</span></div>
+      <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.8">Tenant isolation, onboarding wizard, custom domains, white-label, feature flags, billing, site cloning, network admin, staging environments</div>
+    </div>
+    <div class="card" style="padding:10px 12px">
+      <div style="font-size:12px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:6px"><i class="ti ti-api" aria-hidden="true" style="color:#534AB7;font-size:15px"></i>Headless API &amp; Dev Platform <span class="badge b-post">Phase 2</span></div>
+      <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.8">REST + GraphQL headless, OData, webhooks, Swagger/OpenAPI docs, CLI tool, cron jobs, NuGet plugin marketplace, hook/filter system</div>
+    </div>
+    <div class="card" style="padding:10px 12px">
+      <div style="font-size:12px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:6px"><i class="ti ti-refresh" aria-hidden="true" style="color:#993C1D;font-size:15px"></i>Integrations <span class="badge b-post">Phase 2</span></div>
+      <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.8">CRM, email marketing, payment gateways, GA4/Matomo analytics, ERP/BPM connectors, live chat, SMTP configuration</div>
+    </div>
+    <div class="card" style="padding:10px 12px">
+      <div style="font-size:12px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:6px"><i class="ti ti-robot" aria-hidden="true" style="color:#185FA5;font-size:15px"></i>AI / Smart Features <span class="badge b-post">Phase 3</span></div>
+      <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.8">AI content generation, semantic search, AI SEO suggestions, chatbot trained on site content, smart personalisation engine</div>
+    </div>
+    <div class="card" style="padding:10px 12px">
+      <div style="font-size:12px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:6px"><i class="ti ti-shopping-cart" aria-hidden="true" style="color:#854F0B;font-size:15px"></i>eCommerce <span class="badge b-post">Phase 3</span></div>
+      <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.8">Products, inventory, cart, checkout, coupons, subscriptions, multi-currency, tax, order management, abandoned cart recovery, POS</div>
+    </div>
+    <div class="card" style="padding:10px 12px">
+      <div style="font-size:12px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:6px"><i class="ti ti-message-circle" aria-hidden="true" style="color:#993556;font-size:15px"></i>Community, LMS &amp; Mobile <span class="badge b-post">Phase 3</span></div>
+      <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.8">Comments, forms, forums, notifications, PWA, push notifications, LMS courses, quizzes, SCORM, virtual classroom integration</div>
+    </div>
+  </div>
+</div>
+
+<div id="sprints" class="view">
+  <div class="stat-row">
+    <div class="stat"><div class="stat-n" style="color:#534AB7">12</div><div class="stat-l">Sprints (2-week each)</div></div>
+    <div class="stat"><div class="stat-n" style="color:#534AB7">6</div><div class="stat-l">Months total</div></div>
+    <div class="stat"><div class="stat-n" style="color:#0F6E56">3</div><div class="stat-l">Phases</div></div>
+    <div class="stat"><div class="stat-n" style="color:#854F0B">5</div><div class="stat-l">Parallel streams</div></div>
+  </div>
+
+  <div style="margin-bottom:10px">
+    <div style="font-size:11px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:6px;letter-spacing:.05em">Phase 1 — Foundation (months 1–2, sprints 1–4)</div>
+    <div class="sprint-grid">
+      <div class="sprint">
+        <div class="sprint-head" style="background:#EEEDFE;color:#3C3489">Sprint 1 — Project setup</div>
+        <div class="sprint-body">
+          <div class="sprint-item"><span class="dot d-pu"></span>.NET 9 solution architecture, Clean Architecture layers</div>
+          <div class="sprint-item"><span class="dot d-pu"></span>PostgreSQL schema design, EF Core setup</div>
+          <div class="sprint-item"><span class="dot d-pu"></span>ASP.NET Identity + JWT auth baseline</div>
+          <div class="sprint-item"><span class="dot d-pu"></span>Admin shell UI (sidebar nav, layout)</div>
+          <div class="sprint-item"><span class="dot d-pu"></span>Basic RBAC: 5 default roles wired in</div>
+          <div class="sprint-item"><span class="dot d-pu"></span>CI pipeline setup (GitHub Actions)</div>
+        </div>
+      </div>
+      <div class="sprint">
+        <div class="sprint-head" style="background:#EEEDFE;color:#3C3489">Sprint 2 — Content core</div>
+        <div class="sprint-body">
+          <div class="sprint-item"><span class="dot d-te"></span>Page &amp; post content type models</div>
+          <div class="sprint-item"><span class="dot d-te"></span>WYSIWYG editor (TipTap) integration</div>
+          <div class="sprint-item"><span class="dot d-te"></span>Draft / publish status engine</div>
+          <div class="sprint-item"><span class="dot d-te"></span>Content version history &amp; diff viewer</div>
+          <div class="sprint-item"><span class="dot d-te"></span>Autosave (debounced, server-side)</div>
+          <div class="sprint-item"><span class="dot d-te"></span>Custom fields (key-value metadata)</div>
+        </div>
+      </div>
+      <div class="sprint">
+        <div class="sprint-head" style="background:#EEEDFE;color:#3C3489">Sprint 3 — Media &amp; theme engine</div>
+        <div class="sprint-body">
+          <div class="sprint-item"><span class="dot d-co"></span>File upload service (images, docs, video)</div>
+          <div class="sprint-item"><span class="dot d-co"></span>Auto resize + WebP conversion pipeline</div>
+          <div class="sprint-item"><span class="dot d-co"></span>Media library UI (folder + grid view)</div>
+          <div class="sprint-item"><span class="dot d-bl"></span>Razor theme engine — theme loader</div>
+          <div class="sprint-item"><span class="dot d-bl"></span>Starter theme #1 (clean / business)</div>
+          <div class="sprint-item"><span class="dot d-bl"></span>Header / footer slot system</div>
+        </div>
+      </div>
+      <div class="sprint">
+        <div class="sprint-head" style="background:#EEEDFE;color:#3C3489">Sprint 4 — Security baseline</div>
+        <div class="sprint-body">
+          <div class="sprint-item"><span class="dot d-am"></span>CSP, HSTS, X-Frame-Options headers</div>
+          <div class="sprint-item"><span class="dot d-am"></span>Anti-CSRF token + XSS output encoding</div>
+          <div class="sprint-item"><span class="dot d-am"></span>Login rate limiting + account lockout</div>
+          <div class="sprint-item"><span class="dot d-am"></span>Password reset email flow</div>
+          <div class="sprint-item"><span class="dot d-am"></span>CAPTCHA on login &amp; register forms</div>
+          <div class="sprint-item"><span class="dot d-am"></span>DB automated backup (daily scheduled)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:10px">
+    <div style="font-size:11px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:6px;letter-spacing:.05em">Phase 2 — Core CMS features (months 3–4, sprints 5–8)</div>
+    <div class="sprint-grid">
+      <div class="sprint">
+        <div class="sprint-head" style="background:#E1F5EE;color:#085041">Sprint 5 — Block builder</div>
+        <div class="sprint-body">
+          <div class="sprint-item"><span class="dot d-pu"></span>Block registry &amp; block API design</div>
+          <div class="sprint-item"><span class="dot d-pu"></span>Drag-and-drop canvas (SortableJS)</div>
+          <div class="sprint-item"><span class="dot d-pu"></span>Core blocks: Text, Image, Columns, Button</div>
+          <div class="sprint-item"><span class="dot d-pu"></span>Block settings panel (sidebar)</div>
+          <div class="sprint-item"><span class="dot d-pu"></span>Block preview in editor</div>
+          <div class="sprint-item"><span class="dot d-pu"></span>Block persistence to content JSON</div>
+        </div>
+      </div>
+      <div class="sprint">
+        <div class="sprint-head" style="background:#E1F5EE;color:#085041">Sprint 6 — Navigation &amp; menus</div>
+        <div class="sprint-body">
+          <div class="sprint-item"><span class="dot d-te"></span>Menu builder (drag-and-drop tree)</div>
+          <div class="sprint-item"><span class="dot d-te"></span>Widget areas registration system</div>
+          <div class="sprint-item"><span class="dot d-te"></span>Sidebar / footer widget slots</div>
+          <div class="sprint-item"><span class="dot d-te"></span>Breadcrumb component</div>
+          <div class="sprint-item"><span class="dot d-te"></span>Responsive preview pane (3 breakpoints)</div>
+          <div class="sprint-item"><span class="dot d-te"></span>Custom CSS editor (CodeMirror)</div>
+        </div>
+      </div>
+      <div class="sprint">
+        <div class="sprint-head" style="background:#E1F5EE;color:#085041">Sprint 7 — Publishing workflow</div>
+        <div class="sprint-body">
+          <div class="sprint-item"><span class="dot d-co"></span>Approval workflow engine (draft→review→live)</div>
+          <div class="sprint-item"><span class="dot d-co"></span>Scheduled publish &amp; expiry cron</div>
+          <div class="sprint-item"><span class="dot d-co"></span>Quick edit &amp; bulk status change</div>
+          <div class="sprint-item"><span class="dot d-co"></span>Content list with filters &amp; search</div>
+          <div class="sprint-item"><span class="dot d-co"></span>Sticky &amp; featured content flags</div>
+          <div class="sprint-item"><span class="dot d-co"></span>Email notifications (workflow events)</div>
+        </div>
+      </div>
+      <div class="sprint">
+        <div class="sprint-head" style="background:#E1F5EE;color:#085041">Sprint 8 — SEO &amp; front-end</div>
+        <div class="sprint-body">
+          <div class="sprint-item"><span class="dot d-bl"></span>Meta title / description manager</div>
+          <div class="sprint-item"><span class="dot d-bl"></span>Open Graph + Twitter card tags</div>
+          <div class="sprint-item"><span class="dot d-bl"></span>XML sitemap auto-generation</div>
+          <div class="sprint-item"><span class="dot d-bl"></span>robots.txt admin UI</div>
+          <div class="sprint-item"><span class="dot d-bl"></span>Canonical URL engine</div>
+          <div class="sprint-item"><span class="dot d-bl"></span>SEO-friendly permalink structure</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div style="font-size:11px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:6px;letter-spacing:.05em">Phase 3 — Polish, performance &amp; launch (months 5–6, sprints 9–12)</div>
+    <div class="sprint-grid">
+      <div class="sprint">
+        <div class="sprint-head" style="background:#FAEEDA;color:#633806">Sprint 9 — Performance</div>
+        <div class="sprint-body">
+          <div class="sprint-item"><span class="dot d-pu"></span>Output cache (.NET 9 middleware)</div>
+          <div class="sprint-item"><span class="dot d-pu"></span>Redis distributed cache setup</div>
+          <div class="sprint-item"><span class="dot d-pu"></span>Image lazy loading (native HTML)</div>
+          <div class="sprint-item"><span class="dot d-pu"></span>CSS + JS bundling &amp; minification</div>
+          <div class="sprint-item"><span class="dot d-pu"></span>GZIP / Brotli compression</div>
+          <div class="sprint-item"><span class="dot d-pu"></span>DB query profiling &amp; index tuning</div>
+        </div>
+      </div>
+      <div class="sprint">
+        <div class="sprint-head" style="background:#FAEEDA;color:#633806">Sprint 10 — Compliance &amp; ops</div>
+        <div class="sprint-body">
+          <div class="sprint-item"><span class="dot d-te"></span>GDPR consent banner + cookie mgr</div>
+          <div class="sprint-item"><span class="dot d-te"></span>Data erasure (right-to-be-forgotten)</div>
+          <div class="sprint-item"><span class="dot d-te"></span>Health check dashboard (admin)</div>
+          <div class="sprint-item"><span class="dot d-te"></span>Maintenance mode + recovery mode</div>
+          <div class="sprint-item"><span class="dot d-te"></span>Centralised error log (Seq integration)</div>
+          <div class="sprint-item"><span class="dot d-te"></span>Site migration &amp; export tool</div>
+        </div>
+      </div>
+      <div class="sprint">
+        <div class="sprint-head" style="background:#FAEEDA;color:#633806">Sprint 11 — Starter themes + UX</div>
+        <div class="sprint-body">
+          <div class="sprint-item"><span class="dot d-co"></span>Starter theme #2 (portfolio / creative)</div>
+          <div class="sprint-item"><span class="dot d-co"></span>Starter theme #3 (blog / magazine)</div>
+          <div class="sprint-item"><span class="dot d-co"></span>Onboarding wizard (new site setup)</div>
+          <div class="sprint-item"><span class="dot d-co"></span>Mobile-responsive admin dashboard</div>
+          <div class="sprint-item"><span class="dot d-co"></span>Admin dashboard widgets (content, traffic)</div>
+          <div class="sprint-item"><span class="dot d-co"></span>Full dark mode in admin UI</div>
+        </div>
+      </div>
+      <div class="sprint">
+        <div class="sprint-head" style="background:#FAEEDA;color:#633806">Sprint 12 — Launch hardening</div>
+        <div class="sprint-body">
+          <div class="sprint-item"><span class="dot d-bl"></span>End-to-end test suite (Playwright)</div>
+          <div class="sprint-item"><span class="dot d-bl"></span>Load testing (k6 — 1000 concurrent)</div>
+          <div class="sprint-item"><span class="dot d-bl"></span>Security pen-test &amp; OWASP scan</div>
+          <div class="sprint-item"><span class="dot d-bl"></span>Docker image + docker-compose setup</div>
+          <div class="sprint-item"><span class="dot d-bl"></span>Deployment runbook &amp; docs</div>
+          <div class="sprint-item"><span class="dot d-bl"></span>MVP beta release + feedback loop</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:12px;padding:10px 14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);font-size:11px;color:var(--color-text-secondary);display:flex;gap:20px;flex-wrap:wrap">
+    <span style="display:flex;align-items:center;gap:5px"><span class="dot d-pu" style="margin:0"></span>Architecture / Identity</span>
+    <span style="display:flex;align-items:center;gap:5px"><span class="dot d-te" style="margin:0"></span>Content &amp; Editor</span>
+    <span style="display:flex;align-items:center;gap:5px"><span class="dot d-co" style="margin:0"></span>Theme &amp; Publishing</span>
+    <span style="display:flex;align-items:center;gap:5px"><span class="dot d-bl" style="margin:0"></span>SEO &amp; QA</span>
+    <span style="display:flex;align-items:center;gap:5px"><span class="dot d-am" style="margin:0"></span>Security &amp; Ops</span>
+  </div>
+</div>
+
+<div id="timeline" class="view">
+  <div class="month-header">
+    <div></div>
+    <div class="mh">Month 1</div>
+    <div class="mh">Month 2</div>
+    <div class="mh">Month 3</div>
+    <div class="mh">Month 4</div>
+    <div class="mh">Month 5</div>
+    <div class="mh">Month 6</div>
+  </div>
+
+  <div style="margin-bottom:4px;font-size:10px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:.05em;padding-left:108px">Phase 1 — Foundation</div>
+  <div class="timeline-row"><div class="tl-label">Architecture</div><div class="tl-bar" style="background:#EEEDFE;color:#3C3489;grid-column:2/4">Solution setup, DB schema, CI pipeline</div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div></div>
+  <div class="timeline-row"><div class="tl-label">Auth &amp; RBAC</div><div class="tl-bar" style="background:#EEEDFE;color:#3C3489;grid-column:2/4">ASP.NET Identity, JWT, 5 roles, password reset</div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div></div>
+  <div class="timeline-row"><div class="tl-label">Content engine</div><div class="tl-empty"></div><div class="tl-bar" style="background:#EEEDFE;color:#3C3489;grid-column:3/4">WYSIWYG, versions, autosave, custom fields</div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div></div>
+  <div class="timeline-row"><div class="tl-label">Media service</div><div class="tl-empty"></div><div class="tl-bar" style="background:#EEEDFE;color:#3C3489;grid-column:3/4">Upload, resize, WebP, media library</div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div></div>
+  <div class="timeline-row"><div class="tl-label">Security baseline</div><div class="tl-empty"></div><div class="tl-bar" style="background:#EEEDFE;color:#3C3489;grid-column:3/4">CSP, CSRF, rate-limit, CAPTCHA, backup</div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div></div>
+
+  <div style="margin:8px 0 4px;font-size:10px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:.05em;padding-left:108px">Phase 2 — Core CMS</div>
+  <div class="timeline-row"><div class="tl-label">Block builder</div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-bar" style="background:#E1F5EE;color:#085041;grid-column:4/5">DnD canvas, block API, 8 core blocks</div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div></div>
+  <div class="timeline-row"><div class="tl-label">Theme engine</div><div class="tl-empty"></div><div class="tl-bar" style="background:#E1F5EE;color:#085041;grid-column:3/5">Razor engine, theme loader, starter theme #1</div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div></div>
+  <div class="timeline-row"><div class="tl-label">Menus &amp; widgets</div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-bar" style="background:#E1F5EE;color:#085041;grid-column:5/6">Menu builder, widget areas, breadcrumbs</div><div class="tl-empty"></div><div class="tl-empty"></div></div>
+  <div class="timeline-row"><div class="tl-label">Publish workflow</div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-bar" style="background:#E1F5EE;color:#085041;grid-column:5/6">Approval flow, scheduler, bulk edit, email notify</div><div class="tl-empty"></div><div class="tl-empty"></div></div>
+  <div class="timeline-row"><div class="tl-label">SEO module</div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-bar" style="background:#E1F5EE;color:#085041;grid-column:5/6">Meta, OG tags, sitemap, robots.txt, permalinks</div><div class="tl-empty"></div><div class="tl-empty"></div></div>
+
+  <div style="margin:8px 0 4px;font-size:10px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:.05em;padding-left:108px">Phase 3 — Polish &amp; launch</div>
+  <div class="timeline-row"><div class="tl-label">Performance</div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-bar" style="background:#FAEEDA;color:#633806;grid-column:6/7">Output cache, Redis, minify, compress, lazy load</div><div class="tl-empty"></div></div>
+  <div class="timeline-row"><div class="tl-label">Compliance &amp; ops</div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-bar" style="background:#FAEEDA;color:#633806;grid-column:6/7">GDPR, cookie consent, health check, error log</div><div class="tl-empty"></div></div>
+  <div class="timeline-row"><div class="tl-label">Themes 2 &amp; 3</div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-bar" style="background:#FAEEDA;color:#633806;grid-column:6/7">Portfolio + blog starter themes, onboarding wizard</div><div class="tl-empty"></div></div>
+  <div class="timeline-row"><div class="tl-label">QA &amp; launch</div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-empty"></div><div class="tl-bar" style="background:#FAEEDA;color:#633806;grid-column:7/8">E2E tests, load test, pen-test, Docker, beta release</div></div>
+
+  <div style="margin-top:12px;display:flex;gap:16px;flex-wrap:wrap;font-size:11px;color:var(--color-text-secondary)">
+    <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:2px;background:#EEEDFE;border:0.5px solid #AFA9EC;flex-shrink:0"></span>Phase 1 — Foundation</span>
+    <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:2px;background:#E1F5EE;border:0.5px solid #5DCAA5;flex-shrink:0"></span>Phase 2 — Core CMS</span>
+    <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:2px;background:#FAEEDA;border:0.5px solid #EF9F27;flex-shrink:0"></span>Phase 3 — Polish &amp; launch</span>
+  </div>
+</div>
+
+<div id="risks" class="view">
+  <div class="risk-grid">
+    <div class="risk-card" style="border-color:var(--color-border-danger);background:var(--color-background-danger)">
+      <div class="risk-title" style="color:var(--color-text-danger)"><i class="ti ti-alert-circle" aria-hidden="true" style="font-size:14px;vertical-align:-2px;margin-right:4px"></i>High risks</div>
+      <div class="risk-item"><strong style="color:var(--color-text-danger)">Block builder scope creep</strong> — DnD editors are deceptively complex. Fix scope to 8 core blocks for MVP; resist adding more until launch.</div>
+      <div class="risk-item" style="margin-top:6px"><strong style="color:var(--color-text-danger)">Auth shortcuts</strong> — Skipping MFA or SSO is acceptable in MVP, but JWT refresh token rotation and login throttling are non-negotiable from day one.</div>
+      <div class="risk-item" style="margin-top:6px"><strong style="color:var(--color-text-danger)">GDPR non-compliance</strong> — Even in MVP, the consent banner and data erasure flow must ship. Non-compliance is a legal risk regardless of project phase.</div>
+    </div>
+    <div class="risk-card" style="border-color:var(--color-border-warning);background:var(--color-background-warning)">
+      <div class="risk-title" style="color:var(--color-text-warning)"><i class="ti ti-alert-triangle" aria-hidden="true" style="font-size:14px;vertical-align:-2px;margin-right:4px"></i>Medium risks</div>
+      <div class="risk-item"><strong style="color:var(--color-text-warning)">Theme engine flexibility</strong> — Build the theme contract (slots, hooks) correctly in Sprint 3; retrofitting it after the block builder exists is costly.</div>
+      <div class="risk-item" style="margin-top:6px"><strong style="color:var(--color-text-warning)">Performance debt</strong> — Don't defer all performance work to Sprint 9. Add output caching headers and image lazy loading in Phase 2 alongside features.</div>
+      <div class="risk-item" style="margin-top:6px"><strong style="color:var(--color-text-warning)">Team capacity</strong> — 12 sprints is tight for a solo developer. With a 2-person team it's achievable; with 3+ it allows parallel streams.</div>
+    </div>
+    <div class="risk-card" style="border-color:var(--color-border-success);background:var(--color-background-success)">
+      <div class="risk-title" style="color:var(--color-text-success)"><i class="ti ti-circle-check" aria-hidden="true" style="font-size:14px;vertical-align:-2px;margin-right:4px"></i>Key decisions to make now</div>
+      <div class="risk-item"><strong style="color:var(--color-text-success)">DB strategy</strong> — Single-schema now; design tenant_id column in every table from day one so multi-tenancy in Phase 2 is a migration not a rewrite.</div>
+      <div class="risk-item" style="margin-top:6px"><strong style="color:var(--color-text-success)">Block storage format</strong> — Store blocks as structured JSON (not HTML) so the headless API in Phase 2 can serve blocks to any front-end.</div>
+      <div class="risk-item" style="margin-top:6px"><strong style="color:var(--color-text-success)">Plugin hook points</strong> — Add the event/hook infrastructure in Sprint 1 even without plugins; retrofitting hook points into existing services is painful.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:10px" class="card">
+    <div style="font-size:12px;font-weight:500;margin-bottom:8px;color:var(--color-text-primary)"><i class="ti ti-rocket" aria-hidden="true" style="font-size:14px;vertical-align:-2px;margin-right:4px;color:#534AB7"></i>MVP definition of done — what you can deliver at month 6</div>
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 20px">
+      <div style="font-size:11px;color:var(--color-text-secondary);padding:3px 0;display:flex;gap:6px"><i class="ti ti-check" aria-hidden="true" style="color:#0F6E56;font-size:13px;flex-shrink:0;margin-top:1px"></i>Non-technical users can build pages with block builder, no code</div>
+      <div style="font-size:11px;color:var(--color-text-secondary);padding:3px 0;display:flex;gap:6px"><i class="ti ti-check" aria-hidden="true" style="color:#0F6E56;font-size:13px;flex-shrink:0;margin-top:1px"></i>Full content workflow: create → review → publish → schedule</div>
+      <div style="font-size:11px;color:var(--color-text-secondary);padding:3px 0;display:flex;gap:6px"><i class="ti ti-check" aria-hidden="true" style="color:#0F6E56;font-size:13px;flex-shrink:0;margin-top:1px"></i>3 production-quality starter themes, responsive on all devices</div>
+      <div style="font-size:11px;color:var(--color-text-secondary);padding:3px 0;display:flex;gap:6px"><i class="ti ti-check" aria-hidden="true" style="color:#0F6E56;font-size:13px;flex-shrink:0;margin-top:1px"></i>5-role permission system, JWT auth, brute-force protection</div>
+      <div style="font-size:11px;color:var(--color-text-secondary);padding:3px 0;display:flex;gap:6px"><i class="ti ti-check" aria-hidden="true" style="color:#0F6E56;font-size:13px;flex-shrink:0;margin-top:1px"></i>Image upload, auto-resize, WebP, media library with folders</div>
+      <div style="font-size:11px;color:var(--color-text-secondary);padding:3px 0;display:flex;gap:6px"><i class="ti ti-check" aria-hidden="true" style="color:#0F6E56;font-size:13px;flex-shrink:0;margin-top:1px"></i>Full SEO module: meta, OG, sitemap, robots.txt, permalinks</div>
+      <div style="font-size:11px;color:var(--color-text-secondary);padding:3px 0;display:flex;gap:6px"><i class="ti ti-check" aria-hidden="true" style="color:#0F6E56;font-size:13px;flex-shrink:0;margin-top:1px"></i>OWASP-hardened, CSP/HSTS headers, GDPR consent, backups</div>
+      <div style="font-size:11px;color:var(--color-text-secondary);padding:3px 0;display:flex;gap:6px"><i class="ti ti-check" aria-hidden="true" style="color:#0F6E56;font-size:13px;flex-shrink:0;margin-top:1px"></i>Dockerised, load-tested to 1000 concurrent, pen-tested, documented</div>
+    </div>
+  </div>
+
+  <div style="margin-top:8px;display:flex;gap:8px">
+    <button onclick="sendPrompt('Design the database schema for the MVP CMS with tenant_id columns included')" style="font-size:12px;padding:7px 14px">Design MVP database schema ↗</button>
+    <button onclick="sendPrompt('Design the block builder architecture for the enterprise CMS in .NET 9')" style="font-size:12px;padding:7px 14px">Design block builder architecture ↗</button>
+    <button onclick="sendPrompt('Design the Razor theme engine contract for the enterprise CMS')" style="font-size:12px;padding:7px 14px">Design theme engine contract ↗</button>
+  </div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.closest('.tab').classList.add('active');
+}
+</script>

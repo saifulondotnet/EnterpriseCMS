@@ -1,0 +1,315 @@
+
+<style>
+.pillar{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px}
+.pillar-title{font-size:14px;font-weight:500;color:var(--color-text-primary);display:flex;align-items:center;gap:7px;margin-bottom:10px}
+.pillar-title i{font-size:18px}
+.fi{font-size:12px;color:var(--color-text-secondary);padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary);line-height:1.5;cursor:pointer;transition:color .15s;display:flex;align-items:baseline;gap:5px}
+.fi:last-child{border-bottom:none}
+.fi:hover{color:var(--color-text-primary)}
+.badge{display:inline-block;font-size:10px;padding:1px 6px;border-radius:8px;font-weight:500;white-space:nowrap;flex-shrink:0}
+.b-new{background:var(--color-background-success);color:var(--color-text-success)}
+.b-ai{background:var(--color-background-info);color:var(--color-text-info)}
+.b-sec{background:var(--color-background-danger);color:var(--color-text-danger)}
+.b-add{background:var(--color-background-warning);color:var(--color-text-warning)}
+.sh{font-size:11px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:.06em;margin:14px 0 6px;display:flex;align-items:center;gap:6px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.g22{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:11px;color:var(--color-text-secondary);padding:10px 14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin-top:14px}
+.added-banner{background:var(--color-background-warning);border:0.5px solid var(--color-border-warning);border-radius:var(--border-radius-md);padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--color-text-warning);display:flex;align-items:center;gap:8px}
+</style>
+
+<h2 class="sr-only">Updated Enterprise CMS feature map — 11 pillars including 6 new pillars and 35+ newly added features from WordPress gap analysis</h2>
+
+<div class="added-banner">
+  <i class="ti ti-sparkles" aria-hidden="true" style="font-size:16px;flex-shrink:0"></i>
+  <span>Gap analysis complete — <strong>6 new pillars</strong> added and <strong>35+ features</strong> added across existing pillars. Features marked <span class="badge b-add" style="margin:0 2px">+ added</span> are newly identified from the WordPress comparison.</span>
+</div>
+
+<div class="sh"><i class="ti ti-pencil" aria-hidden="true"></i> Content &amp; Experience</div>
+<div class="g3">
+<div class="pillar">
+  <div class="pillar-title" style="color:#534AB7"><i class="ti ti-file-text" style="color:#534AB7" aria-hidden="true"></i>Content Studio</div>
+  <div class="fi" onclick="sendPrompt('Tell me about block-based page builder in enterprise CMS')">Block-based page builder (drag &amp; drop)</div>
+  <div class="fi" onclick="sendPrompt('How does WYSIWYG editor work in CMS?')">Rich text / WYSIWYG editor (Quill/TipTap)</div>
+  <div class="fi" onclick="sendPrompt('How does content versioning work in CMS?')">Version history &amp; content diff</div>
+  <div class="fi" onclick="sendPrompt('What is content scheduling and expiry in CMS?')">Scheduled publishing &amp; expiry</div>
+  <div class="fi" onclick="sendPrompt('What are reusable content templates and patterns in CMS?')">Reusable templates, patterns &amp; partials <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('Explain autosave and content recovery in CMS')">Autosave &amp; content recovery <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does quick edit and bulk edit work in CMS?')">Quick edit &amp; bulk edit <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('What are custom fields in CMS?')">Custom fields / metadata support <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How do shortcodes work in enterprise CMS?')">Shortcode &amp; embed support <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does sticky and password-protected content work in CMS?')">Sticky, private &amp; password-protected content <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does content import and export work in CMS?')">Content import / export (XML, CSV) <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('What are approval workflows in CMS?')">Approval workflow (draft → review → publish)</div>
+  <div class="fi" onclick="sendPrompt('Explain multi-language and i18n in CMS')">Multi-language / i18n + RTL support</div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#0F6E56"><i class="ti ti-photo" style="color:#0F6E56" aria-hidden="true"></i>Media &amp; Assets</div>
+  <div class="fi" onclick="sendPrompt('Explain digital asset management in CMS')">Digital Asset Manager (DAM)</div>
+  <div class="fi" onclick="sendPrompt('How does image resize crop WebP work in CMS?')">Auto resize, crop, WebP conversion</div>
+  <div class="fi" onclick="sendPrompt('What is CDN integration in CMS?')">CDN integration (Azure CDN / CloudFront)</div>
+  <div class="fi" onclick="sendPrompt('How does video and document streaming work in CMS?')">Video &amp; document streaming</div>
+  <div class="fi" onclick="sendPrompt('Explain folder and tag-based asset search in CMS')">Folder hierarchy &amp; tag-based search</div>
+  <div class="fi" onclick="sendPrompt('What is AI alt-text generation in CMS?')">AI-powered alt-text generation <span class="badge b-ai">AI</span></div>
+  <div class="fi" onclick="sendPrompt('How does image editing and cropping work inside CMS admin?')">In-admin image editor (crop, rotate, flip) <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does lazy loading work for media in CMS?')">Lazy loading for images &amp; video <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does featured image and thumbnail work in CMS?')">Featured image / thumbnail generation <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does external storage like S3 Azure Blob work with CMS?')">External storage (S3, Azure Blob) <span class="badge b-add">+ added</span></div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#993C1D"><i class="ti ti-template" style="color:#993C1D" aria-hidden="true"></i>Theme &amp; Design</div>
+  <div class="fi" onclick="sendPrompt('How does Razor theme engine work in .NET CMS?')">Razor-based theme engine</div>
+  <div class="fi" onclick="sendPrompt('Explain design token system in CMS themes')">Design token system (CSS variables)</div>
+  <div class="fi" onclick="sendPrompt('What is live theme customiser in CMS?')">Live theme customiser (colour, font, layout)</div>
+  <div class="fi" onclick="sendPrompt('How does child theme and theme inheritance work?')">Child themes &amp; theme inheritance</div>
+  <div class="fi" onclick="sendPrompt('Explain responsive preview in CMS')">Responsive preview (mobile / tablet / desktop)</div>
+  <div class="fi" onclick="sendPrompt('What is dark mode support in CMS?')">Dark mode &amp; accessibility themes</div>
+  <div class="fi" onclick="sendPrompt('How does custom menu builder work in CMS?')">Custom menu &amp; navigation builder <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does widget area system work in CMS like WordPress?')">Widget areas &amp; widget system <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does header and footer customisation work in CMS?')">Header / footer template customisation <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does custom CSS injection work per theme in CMS?')">Custom CSS injection per tenant/theme <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('What is global styles and typography in CMS theme?')">Global styles &amp; typography control <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does theme switching work without breaking content in CMS?')">Non-destructive theme switching <span class="badge b-add">+ added</span></div>
+</div>
+</div>
+
+<div class="sh"><i class="ti ti-users" aria-hidden="true"></i> Identity, Access &amp; Multi-tenancy</div>
+<div class="g3">
+<div class="pillar">
+  <div class="pillar-title" style="color:#185FA5"><i class="ti ti-shield-lock" style="color:#185FA5" aria-hidden="true"></i>Identity &amp; Auth</div>
+  <div class="fi" onclick="sendPrompt('How does SSO OAuth2 OIDC SAML work in enterprise CMS?')">SSO — OAuth2 / OIDC / SAML 2.0 <span class="badge b-sec">security</span></div>
+  <div class="fi" onclick="sendPrompt('Explain RBAC and ABAC in enterprise CMS')">RBAC + ABAC with custom roles/capabilities</div>
+  <div class="fi" onclick="sendPrompt('What are default user roles in enterprise CMS like WordPress?')">Default roles: Admin, Editor, Author, Contributor, Subscriber <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('What MFA options should enterprise CMS support?')">MFA — TOTP, SMS, email OTP</div>
+  <div class="fi" onclick="sendPrompt('How does JWT and refresh token rotation work in CMS?')">JWT + refresh token rotation</div>
+  <div class="fi" onclick="sendPrompt('What is tamper-proof audit trail in CMS?')">Tamper-proof audit trail</div>
+  <div class="fi" onclick="sendPrompt('How does user activity log work in CMS?')">User activity &amp; login history log <span class="badge b-add">+ added</span></div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#3B6D11"><i class="ti ti-building" style="color:#3B6D11" aria-hidden="true"></i>Multi-tenancy</div>
+  <div class="fi" onclick="sendPrompt('How does multi-tenant architecture work in .NET CMS?')">Tenant-per-site or shared-DB isolation</div>
+  <div class="fi" onclick="sendPrompt('Explain self-service tenant onboarding wizard in CMS')">Self-service tenant onboarding wizard</div>
+  <div class="fi" onclick="sendPrompt('What is custom domain and white-label per tenant in CMS?')">Custom domain + white-label branding</div>
+  <div class="fi" onclick="sendPrompt('How does tenant-scoped settings and feature flags work?')">Tenant-scoped settings &amp; feature flags</div>
+  <div class="fi" onclick="sendPrompt('Explain per-tenant quota and rate limiting in CMS')">Per-tenant quota &amp; rate limiting</div>
+  <div class="fi" onclick="sendPrompt('How does billing and subscription per tenant work in CMS?')">Billing &amp; subscription per tenant</div>
+  <div class="fi" onclick="sendPrompt('How does site cloning work in enterprise CMS multi-tenancy?')">Site cloning &amp; template sites <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('What is network admin panel for multi-site in enterprise CMS?')">Network admin dashboard (like WP Multisite) <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does staging environment work in enterprise CMS?')">Staging + blue/green deployment per site <span class="badge b-add">+ added</span></div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#854F0B"><i class="ti ti-user-cog" style="color:#854F0B" aria-hidden="true"></i>User &amp; Member Mgmt</div>
+  <div class="fi" onclick="sendPrompt('How does front-end member portal work in CMS?')">Front-end member registration &amp; portal</div>
+  <div class="fi" onclick="sendPrompt('What is user profile management in CMS?')">User profile &amp; preference management</div>
+  <div class="fi" onclick="sendPrompt('How does social login work in CMS?')">Social login (Google, Microsoft, GitHub)</div>
+  <div class="fi" onclick="sendPrompt('What is content gating and paywall in CMS?')">Content gating &amp; paywall support</div>
+  <div class="fi" onclick="sendPrompt('How does group and team management work in CMS?')">Group / team management &amp; delegation</div>
+  <div class="fi" onclick="sendPrompt('How does user avatar and Gravatar work in CMS?')">User avatars &amp; Gravatar support <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('What is password reset and recovery flow in enterprise CMS?')">Self-service password reset &amp; recovery <span class="badge b-add">+ added</span></div>
+</div>
+</div>
+
+<div class="sh"><i class="ti ti-api" aria-hidden="true"></i> Developer Platform &amp; Integrations</div>
+<div class="g4">
+<div class="pillar">
+  <div class="pillar-title" style="color:#534AB7"><i class="ti ti-api" style="color:#534AB7" aria-hidden="true"></i>Headless API</div>
+  <div class="fi" onclick="sendPrompt('How does REST and GraphQL headless CMS work in .NET?')">REST + GraphQL content delivery</div>
+  <div class="fi" onclick="sendPrompt('Explain OData support in .NET CMS')">OData query support</div>
+  <div class="fi" onclick="sendPrompt('What is Swagger OpenAPI docs in CMS?')">Swagger / OpenAPI auto-docs</div>
+  <div class="fi" onclick="sendPrompt('How does webhook delivery work in CMS?')">Webhook delivery system</div>
+  <div class="fi" onclick="sendPrompt('How does API key and OAuth client credentials work in CMS?')">API key + OAuth client credentials</div>
+  <div class="fi" onclick="sendPrompt('How does WP-CLI equivalent CLI work in .NET enterprise CMS?')">CLI management tool (WP-CLI equivalent) <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does cron job and task scheduling work in enterprise CMS?')">Cron jobs &amp; scheduled tasks <span class="badge b-add">+ added</span></div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#0F6E56"><i class="ti ti-plug" style="color:#0F6E56" aria-hidden="true"></i>Plugin / Extension</div>
+  <div class="fi" onclick="sendPrompt('How does WordPress-style plugin marketplace work in .NET CMS?')">Plugin marketplace</div>
+  <div class="fi" onclick="sendPrompt('How does hook and event system work in CMS plugins?')">Hook, action &amp; filter event system <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('What is admin UI injection for plugins in CMS?')">Admin UI injection points</div>
+  <div class="fi" onclick="sendPrompt('How does NuGet plugin distribution work in .NET CMS?')">NuGet-based plugin distribution</div>
+  <div class="fi" onclick="sendPrompt('How does plugin sandboxing work in CMS?')">Plugin sandboxing &amp; permission scope</div>
+  <div class="fi" onclick="sendPrompt('How does one-click plugin install and auto-update work in CMS?')">One-click install &amp; auto-updates <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('What is must-use plugin concept in enterprise CMS?')">Must-use / system-locked plugins <span class="badge b-add">+ added</span></div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#993C1D"><i class="ti ti-refresh" style="color:#993C1D" aria-hidden="true"></i>Integrations</div>
+  <div class="fi" onclick="sendPrompt('How to integrate CRM Salesforce HubSpot with CMS?')">CRM (Salesforce, HubSpot) sync</div>
+  <div class="fi" onclick="sendPrompt('How to integrate Mailchimp SendGrid email marketing with CMS?')">Email marketing (Mailchimp, SendGrid)</div>
+  <div class="fi" onclick="sendPrompt('How to integrate payment gateway Stripe PayPal with CMS?')">Payment gateways (Stripe, PayPal)</div>
+  <div class="fi" onclick="sendPrompt('How does analytics GA4 Mixpanel integration work in CMS?')">Analytics (GA4, Mixpanel, Matomo)</div>
+  <div class="fi" onclick="sendPrompt('How does ERP BPM connector work in enterprise CMS?')">ERP / BPM connector (Apache Camel)</div>
+  <div class="fi" onclick="sendPrompt('How does live chat integration work in CMS?')">Live chat &amp; ticketing integration <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does SMTP and transactional email work in CMS?')">SMTP &amp; transactional email config <span class="badge b-add">+ added</span></div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#185FA5"><i class="ti ti-robot" style="color:#185FA5" aria-hidden="true"></i>AI / Smart Features</div>
+  <div class="fi" onclick="sendPrompt('What AI content generation features can enterprise CMS have?')">AI content generation (Claude / GPT) <span class="badge b-ai">AI</span></div>
+  <div class="fi" onclick="sendPrompt('How does AI SEO meta and keyword suggestion work in CMS?')">AI SEO meta &amp; keyword suggestions <span class="badge b-ai">AI</span></div>
+  <div class="fi" onclick="sendPrompt('What is semantic search with vector embeddings in CMS?')">Semantic search (vector embeddings) <span class="badge b-ai">AI</span></div>
+  <div class="fi" onclick="sendPrompt('How does AI chatbot trained on site content work?')">AI chatbot trained on site content <span class="badge b-ai">AI</span></div>
+  <div class="fi" onclick="sendPrompt('What is smart personalisation engine in CMS?')">Smart personalisation engine <span class="badge b-ai">AI</span></div>
+</div>
+</div>
+
+<div class="sh"><i class="ti ti-shield" aria-hidden="true"></i> Security, Compliance &amp; Performance</div>
+<div class="g3">
+<div class="pillar">
+  <div class="pillar-title" style="color:#A32D2D"><i class="ti ti-lock" style="color:#A32D2D" aria-hidden="true"></i>Security <span class="badge b-sec" style="font-size:10px">critical</span></div>
+  <div class="fi" onclick="sendPrompt('What security headers should enterprise CMS implement?')">CSP, HSTS, X-Frame-Options headers</div>
+  <div class="fi" onclick="sendPrompt('How does SQL injection XSS CSRF protection work in .NET CMS?')">SQL injection, XSS, CSRF protection</div>
+  <div class="fi" onclick="sendPrompt('How does AES-256 and TLS 1.3 encryption work in CMS?')">AES-256 at rest, TLS 1.3 in transit</div>
+  <div class="fi" onclick="sendPrompt('What is Azure Key Vault secrets management in CMS?')">Secrets management (Azure Key Vault)</div>
+  <div class="fi" onclick="sendPrompt('What is OWASP Top 10 compliance in enterprise CMS?')">OWASP Top 10 compliance</div>
+  <div class="fi" onclick="sendPrompt('How does WAF and IP allowlisting work with CMS?')">WAF &amp; IP allowlisting</div>
+  <div class="fi" onclick="sendPrompt('How does file permission management work in enterprise CMS?')">File permission hardening <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does CAPTCHA and bot protection work in CMS forms?')">CAPTCHA &amp; bot protection <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does malware scanning and security monitoring work in CMS?')">Malware scanning &amp; security monitoring <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does login attempt throttling and brute force protection work?')">Login throttling &amp; brute-force protection <span class="badge b-add">+ added</span></div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#3B6D11"><i class="ti ti-certificate" style="color:#3B6D11" aria-hidden="true"></i>Compliance</div>
+  <div class="fi" onclick="sendPrompt('How does GDPR compliance work in enterprise CMS?')">GDPR — consent banner, data erasure <span class="badge b-sec">legal</span></div>
+  <div class="fi" onclick="sendPrompt('How does cookie consent management work in CMS?')">Cookie consent (PECR / ePrivacy)</div>
+  <div class="fi" onclick="sendPrompt('What is WCAG 2.2 AA accessibility in CMS?')">WCAG 2.2 AA accessibility</div>
+  <div class="fi" onclick="sendPrompt('How does data retention and right to be forgotten work in CMS?')">Data retention &amp; right-to-be-forgotten</div>
+  <div class="fi" onclick="sendPrompt('What is SOC2 and ISO27001 readiness for enterprise CMS?')">SOC 2 / ISO 27001 audit logging</div>
+  <div class="fi" onclick="sendPrompt('What is PDPA and local data sovereignty for Bangladesh CMS?')">PDPA / local data sovereignty</div>
+  <div class="fi" onclick="sendPrompt('How does keyboard navigation and screen reader support work in CMS?')">Keyboard navigation &amp; screen reader support <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does semantic HTML output work in enterprise CMS?')">Semantic HTML5 output enforcement <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does AMP support work in enterprise CMS?')">AMP support for mobile pages <span class="badge b-add">+ added</span></div>
+</div>
+
+<div class="pillar">
+  <div class="pillar-title" style="color:#185FA5"><i class="ti ti-bolt" style="color:#185FA5" aria-hidden="true"></i>Performance &amp; Infra</div>
+  <div class="fi" onclick="sendPrompt('How does output caching and Redis work in .NET 9 CMS?')">Output cache + Redis distributed cache</div>
+  <div class="fi" onclick="sendPrompt('What is static site generation in .NET CMS?')">Static page generation (SSG) option</div>
+  <div class="fi" onclick="sendPrompt('How does background job queue work in enterprise CMS?')">Background job queue (Hangfire / Quartz)</div>
+  <div class="fi" onclick="sendPrompt('How does Docker Kubernetes auto-scaling work for CMS?')">Docker / K8s horizontal auto-scaling</div>
+  <div class="fi" onclick="sendPrompt('How does database read replica and partitioning work in CMS?')">DB read replicas &amp; partitioning</div>
+  <div class="fi" onclick="sendPrompt('What is health check and Prometheus Grafana monitoring in CMS?')">Health checks, Prometheus + Grafana metrics</div>
+  <div class="fi" onclick="sendPrompt('How does GZIP and Brotli compression work in .NET CMS?')">GZIP / Brotli compression <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does database optimisation and query tuning work in CMS?')">Database query optimisation <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does minification of CSS and JS work in .NET CMS?')">CSS &amp; JS minification / bundling <span class="badge b-add">+ added</span></div>
+  <div class="fi" onclick="sendPrompt('How does object caching and browser caching work in CMS?')">Object caching &amp; browser cache headers <span class="badge b-add">+ added</span></div>
+</div>
+</div>
+
+<div class="sh"><i class="ti ti-chart-bar" aria-hidden="true"></i> SEO, Analytics &amp; Operations</div>
+<div class="g2">
+<div class="pillar">
+  <div class="pillar-title" style="color:#534AB7"><i class="ti ti-search" style="color:#534AB7" aria-hidden="true"></i>SEO &amp; Discoverability</div>
+  <div class="g22">
+    <div class="fi" onclick="sendPrompt('How does meta and Open Graph manager work in CMS?')">Meta / Open Graph manager</div>
+    <div class="fi" onclick="sendPrompt('How does XML sitemap generation work in CMS?')">Auto XML sitemap generation</div>
+    <div class="fi" onclick="sendPrompt('How does canonical URL and redirect manager work in CMS?')">Canonical URL + redirect manager</div>
+    <div class="fi" onclick="sendPrompt('How does Schema.org structured data JSON-LD work in CMS?')">Schema.org structured data (JSON-LD)</div>
+    <div class="fi" onclick="sendPrompt('How does robots.txt management work in enterprise CMS?')">robots.txt management</div>
+    <div class="fi" onclick="sendPrompt('What is Core Web Vitals optimisation in CMS?')">Core Web Vitals optimisation</div>
+    <div class="fi" onclick="sendPrompt('How does permalink and SEO-friendly URL work in CMS?')">SEO-friendly permalink structure <span class="badge b-add">+ added</span></div>
+    <div class="fi" onclick="sendPrompt('How does breadcrumb navigation work for SEO in CMS?')">Breadcrumb navigation (schema-aware) <span class="badge b-add">+ added</span></div>
+    <div class="fi" onclick="sendPrompt('How does internal linking tool work in CMS?')">Internal linking suggestions <span class="badge b-add">+ added</span></div>
+    <div class="fi" onclick="sendPrompt('How does RSS feed work in enterprise CMS?')">RSS / Atom feed generation <span class="badge b-add">+ added</span></div>
+  </div>
+</div>
+<div class="pillar">
+  <div class="pillar-title" style="color:#854F0B"><i class="ti ti-settings" style="color:#854F0B" aria-hidden="true"></i>Ops &amp; Admin</div>
+  <div class="g22">
+    <div class="fi" onclick="sendPrompt('What is role-based admin dashboard in enterprise CMS?')">Role-based admin dashboard</div>
+    <div class="fi" onclick="sendPrompt('How does automated backup and restore work in CMS?')">Automated backup &amp; point-in-time restore</div>
+    <div class="fi" onclick="sendPrompt('How does feature flag management work in enterprise CMS?')">Feature flag management</div>
+    <div class="fi" onclick="sendPrompt('How does transactional email template work in CMS?')">Transactional email (template-based)</div>
+    <div class="fi" onclick="sendPrompt('How does CI/CD pipeline work for CMS deployment?')">CI/CD pipeline (GitHub Actions / Azure DevOps)</div>
+    <div class="fi" onclick="sendPrompt('How does centralised logging work in enterprise CMS?')">Centralised logging (Seq / ELK)</div>
+    <div class="fi" onclick="sendPrompt('How does maintenance mode work in enterprise CMS?')">Maintenance mode &amp; recovery mode <span class="badge b-add">+ added</span></div>
+    <div class="fi" onclick="sendPrompt('How does site health check dashboard work in enterprise CMS?')">Site health check dashboard <span class="badge b-add">+ added</span></div>
+    <div class="fi" onclick="sendPrompt('How does debug mode work safely in enterprise CMS?')">Debug mode (safe / sandboxed) <span class="badge b-add">+ added</span></div>
+    <div class="fi" onclick="sendPrompt('How does site migration tool work in enterprise CMS?')">Site migration &amp; export tools <span class="badge b-add">+ added</span></div>
+  </div>
+</div>
+</div>
+
+<div class="sh"><i class="ti ti-plus" aria-hidden="true"></i> NEW Pillars — from gap analysis</div>
+<div class="g3">
+<div class="pillar" style="border-color:var(--color-border-warning)">
+  <div class="pillar-title" style="color:#854F0B"><i class="ti ti-shopping-cart" style="color:#854F0B" aria-hidden="true"></i>eCommerce <span class="badge b-add">new pillar</span></div>
+  <div class="fi" onclick="sendPrompt('How does product and inventory management work in CMS ecommerce?')">Product &amp; inventory management</div>
+  <div class="fi" onclick="sendPrompt('How does shopping cart and checkout work in CMS?')">Shopping cart &amp; checkout system</div>
+  <div class="fi" onclick="sendPrompt('How does coupon and discount management work in CMS?')">Coupons, discounts &amp; promo codes</div>
+  <div class="fi" onclick="sendPrompt('How does digital download and subscription product work in CMS?')">Digital downloads &amp; subscriptions</div>
+  <div class="fi" onclick="sendPrompt('How does multi-currency and tax calculation work in CMS?')">Multi-currency &amp; tax calculation</div>
+  <div class="fi" onclick="sendPrompt('How does order management and customer accounts work in CMS?')">Order management &amp; customer accounts</div>
+  <div class="fi" onclick="sendPrompt('How does abandoned cart recovery work in enterprise CMS?')">Abandoned cart recovery</div>
+  <div class="fi" onclick="sendPrompt('How does POS integration work with CMS ecommerce?')">POS integration</div>
+</div>
+
+<div class="pillar" style="border-color:var(--color-border-warning)">
+  <div class="pillar-title" style="color:#534AB7"><i class="ti ti-message-circle" style="color:#534AB7" aria-hidden="true"></i>Community &amp; Forms <span class="badge b-add">new pillar</span></div>
+  <div class="fi" onclick="sendPrompt('How does blog comments and comment moderation work in enterprise CMS?')">Blog comments &amp; moderation</div>
+  <div class="fi" onclick="sendPrompt('How do contact forms and survey forms work in CMS?')">Contact, survey &amp; poll forms</div>
+  <div class="fi" onclick="sendPrompt('How does spam protection work in CMS forms?')">Spam protection (Akismet / honeypot)</div>
+  <div class="fi" onclick="sendPrompt('How does forum integration like bbPress work in enterprise CMS?')">Forum integration (bbPress-style)</div>
+  <div class="fi" onclick="sendPrompt('How does user notification and activity feed work in CMS?')">Notifications &amp; activity feeds</div>
+  <div class="fi" onclick="sendPrompt('How does pingback and trackback work in enterprise CMS?')">Pingbacks / trackbacks</div>
+  <div class="fi" onclick="sendPrompt('How does user badge and gamification work in CMS?')">User badges &amp; gamification</div>
+</div>
+
+<div class="pillar" style="border-color:var(--color-border-warning)">
+  <div class="pillar-title" style="color:#0F6E56"><i class="ti ti-device-mobile" aria-hidden="true" style="color:#0F6E56"></i>Mobile &amp; PWA <span class="badge b-add">new pillar</span></div>
+  <div class="fi" onclick="sendPrompt('How does PWA support work in enterprise CMS?')">PWA support (manifest, service worker)</div>
+  <div class="fi" onclick="sendPrompt('How does mobile admin dashboard work in enterprise CMS?')">Mobile-responsive admin dashboard</div>
+  <div class="fi" onclick="sendPrompt('How does push notification work in CMS PWA?')">Push notification support</div>
+  <div class="fi" onclick="sendPrompt('How does offline content access work in CMS PWA?')">Offline content caching</div>
+  <div class="fi" onclick="sendPrompt('How does native app API work with headless CMS?')">Native mobile app API (React Native / Flutter)</div>
+  <div class="fi" onclick="sendPrompt('How does AMP work for mobile pages in CMS?')">AMP pages for mobile performance</div>
+</div>
+</div>
+
+<div class="g3" style="margin-top:10px">
+<div class="pillar" style="border-color:var(--color-border-warning)">
+  <div class="pillar-title" style="color:#185FA5"><i class="ti ti-graph" style="color:#185FA5" aria-hidden="true"></i>Analytics &amp; Reporting <span class="badge b-add">new pillar</span></div>
+  <div class="fi" onclick="sendPrompt('How does built-in traffic analytics work in enterprise CMS?')">Built-in traffic &amp; user analytics</div>
+  <div class="fi" onclick="sendPrompt('How does SEO reporting dashboard work in CMS?')">SEO performance reports</div>
+  <div class="fi" onclick="sendPrompt('How does sales and revenue reporting work in CMS?')">Sales &amp; revenue reporting</div>
+  <div class="fi" onclick="sendPrompt('How does error log and performance monitoring work in CMS?')">Error log &amp; performance report</div>
+  <div class="fi" onclick="sendPrompt('How does admin dashboard widget work in enterprise CMS?')">Customisable admin dashboard widgets</div>
+  <div class="fi" onclick="sendPrompt('How does A/B testing work in enterprise CMS?')">A/B testing &amp; conversion tracking</div>
+</div>
+
+<div class="pillar" style="border-color:var(--color-border-warning)">
+  <div class="pillar-title" style="color:#993C1D"><i class="ti ti-school" style="color:#993C1D" aria-hidden="true"></i>LMS / eLearning <span class="badge b-add">new pillar</span></div>
+  <div class="fi" onclick="sendPrompt('How does course management work in enterprise CMS LMS?')">Course &amp; lesson management</div>
+  <div class="fi" onclick="sendPrompt('How does learner progress tracking work in CMS LMS?')">Learner progress tracking</div>
+  <div class="fi" onclick="sendPrompt('How does quiz and assessment work in CMS LMS?')">Quizzes, assessments &amp; certificates</div>
+  <div class="fi" onclick="sendPrompt('How does course enrolment and drip content work in CMS?')">Enrolment management &amp; drip content</div>
+  <div class="fi" onclick="sendPrompt('How does SCORM and xAPI support work in enterprise LMS CMS?')">SCORM / xAPI compliance</div>
+  <div class="fi" onclick="sendPrompt('How does virtual classroom integration work in CMS?')">Virtual classroom integration (Zoom / Teams)</div>
+</div>
+
+<div class="pillar" style="border-color:var(--color-border-warning)">
+  <div class="pillar-title" style="color:#A32D2D"><i class="ti ti-building-skyscraper" style="color:#A32D2D" aria-hidden="true"></i>Enterprise-specific <span class="badge b-add">new pillar</span></div>
+  <div class="fi" onclick="sendPrompt('How does high availability and disaster recovery work in enterprise CMS?')">High availability &amp; disaster recovery</div>
+  <div class="fi" onclick="sendPrompt('How does content delivery network regional support work in CMS?')">Multi-region CDN &amp; geo-routing</div>
+  <div class="fi" onclick="sendPrompt('How does enterprise SSO with Active Directory LDAP work in CMS?')">Active Directory / LDAP integration</div>
+  <div class="fi" onclick="sendPrompt('How does content governance and policy enforcement work in enterprise CMS?')">Content governance &amp; policy enforcement</div>
+  <div class="fi" onclick="sendPrompt('How does SLA and uptime monitoring work for enterprise CMS?')">SLA monitoring &amp; uptime dashboards</div>
+  <div class="fi" onclick="sendPrompt('How does data archiving and long-term retention work in enterprise CMS?')">Data archiving &amp; long-term retention</div>
+</div>
+</div>
+
+<div class="legend">
+  <span><i class="ti ti-mouse" aria-hidden="true" style="font-size:14px;vertical-align:-2px"></i> Click any feature to explore</span>
+  <span class="badge b-add">+ added</span><span style="font-size:11px">Newly added from WordPress gap analysis</span>
+  <span class="badge b-ai">AI</span><span style="font-size:11px">AI-powered</span>
+  <span class="badge b-sec">security</span><span style="font-size:11px">Compliance-critical</span>
+  <span style="font-size:11px;color:var(--color-text-warning);font-weight:500">Highlighted pillars</span><span style="font-size:11px">= newly added pillars</span>
+</div>
