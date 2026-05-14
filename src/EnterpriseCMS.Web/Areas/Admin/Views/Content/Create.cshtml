@@ -1,0 +1,93 @@
+@using EnterpriseCMS.Web.Areas.Admin.Controllers
+@model CreateContentViewModel
+@{
+    ViewData["Title"] = "New Content";
+    var contentType = (string)ViewBag.ContentType ?? "page";
+}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>New @System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(contentType)</h2>
+    <a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back</a>
+</div>
+<form asp-action="Create" method="post" id="contentForm">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="ContentType" value="@contentType" />
+    <div class="row g-4">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <input type="text" name="Title" id="titleInput" class="form-control form-control-lg border-0 fs-4 fw-bold p-0" placeholder="Enter title..." value="@Model.Title" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Slug</label>
+                        <input type="text" name="Slug" id="slugInput" class="form-control form-control-sm" placeholder="auto-generated-from-title" value="@Model.Slug" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Content</label>
+                        <textarea id="bodyEditor" name="Body" class="form-control" rows="15" style="display:none">@Model.Body</textarea>
+                        <div id="tinyWrapper">
+                            <textarea id="tinyEditor">@Model.Body</textarea>
+                        </div>
+                    </div>
+                    <input type="hidden" name="Blocks" id="blocksInput" value="[]" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm mb-3">
+                <div class="card-header bg-white fw-semibold">Publish</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label small">Status</label>
+                        <select name="Status" class="form-select form-select-sm">
+                            <option value="0">Draft</option>
+                            <option value="1">Published</option>
+                            <option value="2">Scheduled</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small">Publish Date</label>
+                        <input type="datetime-local" name="PublishedAt" class="form-control form-control-sm" />
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Save</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card border-0 shadow-sm mb-3">
+                <div class="card-header bg-white fw-semibold">SEO</div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <label class="form-label small">Meta Title</label>
+                        <input type="text" name="MetaTitle" class="form-control form-control-sm" value="@Model.MetaTitle" />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Meta Description</label>
+                        <textarea name="MetaDescription" class="form-control form-control-sm" rows="3">@Model.MetaDescription</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@section Scripts {
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '#tinyEditor',
+        plugins: 'autolink lists link image charmap preview anchor searchreplace fullscreen media table code',
+        toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | fullscreen code',
+        height: 500,
+        setup: function(ed) {
+            ed.on('change keyup', function() {
+                document.getElementById('bodyEditor').value = ed.getContent();
+            });
+        }
+    });
+    // Auto-generate slug from title
+    document.getElementById('titleInput').addEventListener('input', function() {
+        const slug = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        document.getElementById('slugInput').value = slug;
+    });
+</script>
+}

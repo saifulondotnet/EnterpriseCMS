@@ -1,0 +1,6 @@
+/* Admin styles */
+#sidebar { transition: width .25s; }
+#sidebar .nav-link { border-radius: .375rem; }
+#sidebar .nav-link:hover, #sidebar .nav-link.active { background: rgba(255,255,255,.15); }
+.card { border-radius: .75rem; }
+.table th { font-weight: 600; font-size: .8125rem; text-transform: uppercase; letter-spacing: .05em; }

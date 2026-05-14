@@ -1,0 +1,86 @@
+@using EnterpriseCMS.Application.Common.Models
+@using EnterpriseCMS.Core.Enums
+@model PagedResult<ContentDto>
+@{
+    ViewData["Title"] = "Content";
+}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-file-earmark-text me-2"></i>Content</h2>
+    <div class="d-flex gap-2">
+        <a asp-action="Create" asp-route-contentType="page" class="btn btn-primary"><i class="bi bi-plus me-1"></i>New Page</a>
+        <a asp-action="Create" asp-route-contentType="post" class="btn btn-outline-primary"><i class="bi bi-plus me-1"></i>New Post</a>
+    </div>
+</div>
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <form method="get" class="row g-2 mb-3">
+            <div class="col-md-4">
+                <input type="text" name="search" value="@ViewBag.Search" placeholder="Search..." class="form-control form-control-sm" />
+            </div>
+            <div class="col-md-3">
+                <select name="status" class="form-select form-select-sm">
+                    <option value="">All Statuses</option>
+                    @foreach (ContentStatus s in Enum.GetValues(typeof(ContentStatus)))
+                    {
+                        <option value="@((int)s)" selected="@(ViewBag.Status != null && (ContentStatus)ViewBag.Status == s)">@s</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-sm btn-secondary w-100"><i class="bi bi-search me-1"></i>Filter</button>
+            </div>
+        </form>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle" id="contentTable">
+                <thead class="table-light">
+                    <tr><th>Title</th><th>Type</th><th>Status</th><th>Author</th><th>Updated</th><th class="text-end">Actions</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td><a asp-action="Edit" asp-route-id="@item.Id" class="text-decoration-none fw-medium">@item.Title</a><br/><small class="text-muted">/@@item.Slug</small></td>
+                            <td><span class="badge bg-secondary">@item.ContentType</span></td>
+                            <td>
+                                @{
+                                    var badgeClass = item.Status switch {
+                                        ContentStatus.Published => "bg-success",
+                                        ContentStatus.Draft => "bg-warning text-dark",
+                                        ContentStatus.Archived => "bg-secondary",
+                                        ContentStatus.Trash => "bg-danger",
+                                        _ => "bg-info"
+                                    };
+                                }
+                                <span class="badge @badgeClass">@item.Status</span>
+                            </td>
+                            <td><small>@item.AuthorName</small></td>
+                            <td><small class="text-muted">@(item.UpdatedAt?.ToString("MMM d, yyyy") ?? item.CreatedAt.ToString("MMM d, yyyy"))</small></td>
+                            <td class="text-end">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
+                                <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this content?')">
+                                    @Html.AntiForgeryToken()
+                                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                    @if (!Model.Items.Any())
+                    {
+                        <tr><td colspan="6" class="text-center text-muted py-4">No content found.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (Model.TotalPages > 1)
+        {
+            <nav><ul class="pagination pagination-sm justify-content-center">
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.Page ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-search="@ViewBag.Search" asp-route-status="@ViewBag.Status">@i</a>
+                    </li>
+                }
+            </ul></nav>
+        }
+    </div>
+</div>

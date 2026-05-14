@@ -1,0 +1,19 @@
+/* CMS-Clean Theme */
+:root {
+    --primary: #2563eb;
+    --secondary: #64748b;
+    --accent: #f59e0b;
+}
+
+body { font-family: 'Inter', system-ui, sans-serif; color: #1e293b; }
+.navbar-brand { letter-spacing: -0.5px; }
+.hero { background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%); color: white; padding: 5rem 0; }
+.card { transition: transform .2s, box-shadow .2s; }
+.card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.12)!important; }
+.cms-block + .cms-block { margin-top: 1.5rem; }
+.cms-richtext img { max-width: 100%; height: auto; border-radius: .375rem; }
+.cms-code pre { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: .5rem; overflow-x: auto; }
+.cms-heading h2 { font-size: 2rem; font-weight: 700; letter-spacing: -.025em; }
+.cms-cta { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-radius: 1rem; }
+.media-card { transition: box-shadow .15s; cursor: pointer; }
+.media-card:hover { box-shadow: 0 0 0 2px var(--primary); }

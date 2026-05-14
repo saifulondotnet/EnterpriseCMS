@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/EnterpriseCMS.Application/EnterpriseCMS.Application.csproj" />
+    <Project Path="src/EnterpriseCMS.Core/EnterpriseCMS.Core.csproj" />
+    <Project Path="src/EnterpriseCMS.Infrastructure/EnterpriseCMS.Infrastructure.csproj" />
+    <Project Path="src/EnterpriseCMS.Plugins.Core/EnterpriseCMS.Plugins.Core.csproj" />
+    <Project Path="src/EnterpriseCMS.Web/EnterpriseCMS.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/EnterpriseCMS.IntegrationTests/EnterpriseCMS.IntegrationTests.csproj" />
+    <Project Path="tests/EnterpriseCMS.UnitTests/EnterpriseCMS.UnitTests.csproj" />
+  </Folder>
+</Solution>

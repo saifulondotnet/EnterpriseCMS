@@ -1,0 +1,7 @@
+version: '3.9'
+
+services:
+  web:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=EnterpriseCMS_Dev;User Id=sa;Password=${SQL_SA_PASSWORD};TrustServerCertificate=True;

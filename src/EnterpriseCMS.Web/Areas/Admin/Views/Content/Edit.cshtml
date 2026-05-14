@@ -1,0 +1,110 @@
+@using EnterpriseCMS.Application.Common.Models
+@using EnterpriseCMS.Core.Enums
+@model ContentDto
+@{
+    ViewData["Title"] = "Edit: " + Model.Title;
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fs-5 fw-bold">Edit: @Model.Title</h2>
+    <div class="d-flex gap-2 align-items-center">
+        <span id="autoSaveStatus" class="text-muted small"></span>
+        <a asp-action="Index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back</a>
+    </div>
+</div>
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post" id="contentForm">
+    @Html.AntiForgeryToken()
+    <div class="row g-4">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <input type="text" name="Title" id="titleInput" class="form-control form-control-lg border-0 fs-4 fw-bold p-0" value="@Model.Title" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Slug</label>
+                        <input type="text" name="Slug" id="slugInput" class="form-control form-control-sm" value="@Model.Slug" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Content</label>
+                        <textarea id="bodyEditor" name="Body" style="display:none">@Model.Body</textarea>
+                        <textarea id="tinyEditor">@Model.Body</textarea>
+                    </div>
+                    <input type="hidden" name="Blocks" id="blocksInput" value="@Model.Blocks" />
+                </div>
+            </div>
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white fw-semibold d-flex justify-content-between align-items-center">
+                    Version History
+                    <small class="text-muted">v@Model.CurrentVersion</small>
+                </div>
+                <div class="card-body"><p class="text-muted small mb-0">Version history tracking active. Changes auto-saved every 60s.</p></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm mb-3">
+                <div class="card-header bg-white fw-semibold">Publish</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label small">Status</label>
+                        <select name="Status" class="form-select form-select-sm">
+                            @foreach (ContentStatus s in Enum.GetValues(typeof(ContentStatus)))
+                            {
+                                <option value="@((int)s)" @(Model.Status == s ? "selected" : "")>@s</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small">Publish Date</label>
+                        <input type="datetime-local" name="PublishedAt" class="form-control form-control-sm"
+                               value="@Model.PublishedAt?.ToString("yyyy-MM-ddTHH:mm")" />
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Save Changes</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card border-0 shadow-sm mb-3">
+                <div class="card-header bg-white fw-semibold">SEO</div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <label class="form-label small">Meta Title</label>
+                        <input type="text" name="MetaTitle" class="form-control form-control-sm" value="@Model.MetaTitle" />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Meta Description</label>
+                        <textarea name="MetaDescription" class="form-control form-control-sm" rows="3">@Model.MetaDescription</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@section Scripts {
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '#tinyEditor',
+        plugins: 'autolink lists link image charmap preview anchor searchreplace fullscreen media table code',
+        toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | fullscreen code',
+        height: 500,
+        setup: function(ed) {
+            ed.on('change keyup', function() { document.getElementById('bodyEditor').value = ed.getContent(); });
+        }
+    });
+    // Auto-save every 60 seconds
+    let autoSaveTimer = setInterval(function() {
+        const formData = new FormData(document.getElementById('contentForm'));
+        formData.set('Body', tinymce.activeEditor?.getContent() || '');
+        fetch('@Url.Action("AutoSave", new { id = Model.Id })', {
+            method: 'POST', body: formData,
+            headers: { 'RequestVerificationToken': document.querySelector('[name=__RequestVerificationToken]').value }
+        }).then(r => r.json()).then(d => {
+            if(d.success) {
+                const el = document.getElementById('autoSaveStatus');
+                el.textContent = 'Auto-saved at ' + new Date(d.savedAt).toLocaleTimeString();
+                setTimeout(() => el.textContent = '', 5000);
+            }
+        });
+    }, 60000);
+</script>
+}

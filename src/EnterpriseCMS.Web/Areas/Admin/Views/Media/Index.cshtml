@@ -1,0 +1,112 @@
+@using EnterpriseCMS.Application.Common.Models
+@model PagedResult<MediaAssetDto>
+@{
+    ViewData["Title"] = "Media Library";
+}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-images me-2"></i>Media Library</h2>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+        <i class="bi bi-upload me-1"></i>Upload Files
+    </button>
+</div>
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <form method="get" class="row g-2 mb-3">
+            <div class="col-md-4">
+                <input type="text" name="search" value="@ViewBag.Search" placeholder="Search media..." class="form-control form-control-sm" />
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-sm btn-secondary w-100"><i class="bi bi-search me-1"></i>Filter</button>
+            </div>
+        </form>
+        <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-3" id="mediaGrid">
+            @foreach (var item in Model.Items)
+            {
+                <div class="col">
+                    <div class="card h-100 border media-card" data-id="@item.Id" data-url="@item.PublicUrl" data-name="@item.OriginalFileName">
+                        <div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height:120px;overflow:hidden;">
+                            @if (item.MimeType.StartsWith("image/"))
+                            {
+                                <img src="@item.PublicUrl" class="img-fluid" style="max-height:120px;object-fit:cover;width:100%;" alt="@item.AltText" loading="lazy" />
+                            }
+                            else
+                            {
+                                <i class="bi bi-file-earmark fs-1 text-muted"></i>
+                            }
+                        </div>
+                        <div class="card-body p-2">
+                            <p class="card-text small text-truncate mb-0" title="@item.OriginalFileName">@item.OriginalFileName</p>
+                            <p class="card-text small text-muted">@(item.FileSize / 1024)KB</p>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (!Model.Items.Any())
+            {
+                <div class="col-12 text-center py-5 text-muted"><i class="bi bi-images fs-1 d-block mb-2"></i>No media found. Upload some files!</div>
+            }
+        </div>
+        @if (Model.TotalPages > 1)
+        {
+            <nav class="mt-3"><ul class="pagination pagination-sm justify-content-center">
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.Page ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                    </li>
+                }
+            </ul></nav>
+        }
+    </div>
+</div>
+
+<!-- Upload Modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upload Files</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="dropZone" class="border-2 border-dashed rounded p-5 text-center text-muted" style="border-style:dashed!important;cursor:pointer;" onclick="document.getElementById('fileInput').click()">
+                    <i class="bi bi-cloud-upload fs-1 d-block mb-2"></i>
+                    <p>Drag & drop files here or click to browse</p>
+                    <small>Max 50MB per file. Images, videos, audio, PDFs supported.</small>
+                </div>
+                <input type="file" id="fileInput" multiple class="d-none" />
+                <div id="uploadProgress" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+<script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const progressContainer = document.getElementById('uploadProgress');
+const token = document.querySelector('[name=__RequestVerificationToken]')?.value || '';
+
+function uploadFile(file) {
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('__RequestVerificationToken', token);
+    const div = document.createElement('div');
+    div.className = 'alert alert-info py-2 small mb-1';
+    div.textContent = `Uploading ${file.name}...`;
+    progressContainer.appendChild(div);
+    fetch('@Url.Action("Upload")', { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(d => {
+            div.className = d.success ? 'alert alert-success py-2 small mb-1' : 'alert alert-danger py-2 small mb-1';
+            div.textContent = d.success ? `✓ ${file.name} uploaded` : `✗ ${file.name}: ${d.error}`;
+            if(d.success) setTimeout(() => location.reload(), 2000);
+        })
+        .catch(() => { div.className = 'alert alert-danger py-2 small mb-1'; div.textContent = `✗ ${file.name}: Upload failed`; });
+}
+fileInput.addEventListener('change', e => Array.from(e.target.files).forEach(uploadFile));
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('border-primary'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-primary'));
+dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('border-primary'); Array.from(e.dataTransfer.files).forEach(uploadFile); });
+</script>
+}
