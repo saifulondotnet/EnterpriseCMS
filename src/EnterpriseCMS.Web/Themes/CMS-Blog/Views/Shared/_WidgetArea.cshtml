@@ -1,0 +1,27 @@
+@inject EnterpriseCMS.Core.Interfaces.IUnitOfWork uow
+@{
+    string areaSlug = Model as string ?? ViewBag.WidgetArea as string ?? "sidebar";
+    var widgets = (await uow.Widgets.FindAsync(w => w.AreaSlug == areaSlug && w.IsActive))
+        .OrderBy(w => w.Order).ToList();
+}
+@foreach (var widget in widgets)
+{
+    <div class="widget mb-4">
+        @if (!string.IsNullOrEmpty(widget.Title))
+        {
+            <h5 class="widget-title">@widget.Title</h5>
+        }
+        @switch (widget.WidgetType)
+        {
+            case "text":
+                <div>@Html.Raw(widget.Settings)</div>
+                break;
+            case "html":
+                @Html.Raw(widget.Settings)
+                break;
+            default:
+                <p class="text-muted small">[@widget.WidgetType widget]</p>
+                break;
+        }
+    </div>
+}

@@ -1,0 +1,37 @@
+@{
+    ViewData["Title"] = "Create Redirect";
+}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fs-5 fw-bold">Create Redirect</h2>
+    <a asp-action="Index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back</a>
+</div>
+<div class="card border-0 shadow-sm" style="max-width:500px">
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div class="mb-3">
+                <label class="form-label">From Path</label>
+                <input type="text" name="FromSlug" class="form-control" required placeholder="/old-page" />
+                <div class="form-text">The path to redirect from (e.g. /old-page)</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">To URL / Path</label>
+                <input type="text" name="ToSlug" class="form-control" required placeholder="/new-page" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Status Code</label>
+                <select name="StatusCode" class="form-select">
+                    <option value="301">301 — Permanent</option>
+                    <option value="302">302 — Temporary</option>
+                    <option value="307">307 — Temporary (preserve method)</option>
+                    <option value="308">308 — Permanent (preserve method)</option>
+                </select>
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" name="IsRegex" class="form-check-input" value="true" id="isRegex" />
+                <label for="isRegex" class="form-check-label">Use Regular Expression</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Redirect</button>
+        </form>
+    </div>
+</div>

@@ -6,5 +6,7 @@ public enum ContentStatus
     Published = 1,
     Scheduled = 2,
     Archived = 3,
-    Trash = 4
+    Trash = 4,
+    PendingReview = 5,
+    Unpublished = 6
 }

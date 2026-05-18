@@ -1,0 +1,13 @@
+@{
+    var src = ViewBag.Src as string ?? "";
+    var alt = ViewBag.Alt as string ?? "";
+    var caption = ViewBag.Caption as string ?? "";
+    var fullWidth = ViewBag.FullWidth as bool? ?? false;
+}
+<figure class="blog-image-block @(fullWidth ? "full-width-image" : "")">
+    <img src="@src" alt="@alt" class="img-fluid rounded" />
+    @if (!string.IsNullOrEmpty(caption))
+    {
+        <figcaption class="text-muted small mt-2 text-center fst-italic">@caption</figcaption>
+    }
+</figure>

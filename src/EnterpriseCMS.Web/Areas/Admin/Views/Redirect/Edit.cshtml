@@ -1,0 +1,37 @@
+@model EnterpriseCMS.Web.Areas.Admin.Controllers.RedirectViewModel
+@{
+    ViewData["Title"] = "Edit Redirect";
+}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fs-5 fw-bold">Edit Redirect</h2>
+    <a asp-action="Index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back</a>
+</div>
+<div class="card border-0 shadow-sm" style="max-width:500px">
+    <div class="card-body">
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+            <div class="mb-3">
+                <label class="form-label">From Path</label>
+                <input type="text" name="FromSlug" class="form-control" value="@Model.FromSlug" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">To URL / Path</label>
+                <input type="text" name="ToSlug" class="form-control" value="@Model.ToSlug" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Status Code</label>
+                <select name="StatusCode" class="form-select">
+                    <option value="301" @(Model.StatusCode == 301 ? "selected" : "")>301 — Permanent</option>
+                    <option value="302" @(Model.StatusCode == 302 ? "selected" : "")>302 — Temporary</option>
+                    <option value="307" @(Model.StatusCode == 307 ? "selected" : "")>307 — Temporary (preserve method)</option>
+                    <option value="308" @(Model.StatusCode == 308 ? "selected" : "")>308 — Permanent (preserve method)</option>
+                </select>
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" name="IsRegex" class="form-check-input" value="true" @(Model.IsRegex ? "checked" : "") id="isRegex" />
+                <label for="isRegex" class="form-check-label">Use Regular Expression</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+</div>

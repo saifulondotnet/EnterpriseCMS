@@ -1,3 +1,4 @@
+using EnterpriseCMS.Core.Entities;
 using EnterpriseCMS.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,4 +31,36 @@ public class SettingsController : Controller
         TempData["Success"] = "Settings saved.";
         return RedirectToAction(nameof(Index));
     }
+
+    public async Task<IActionResult> Appearance(CancellationToken ct)
+    {
+        var settings = await _uow.Settings.FindAsync(s => s.Group == "appearance", ct);
+        ViewBag.CustomCss = settings.FirstOrDefault(s => s.SettingKey == "custom_css")?.SettingValue ?? "";
+        return View();
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> SaveCss(string customCss, CancellationToken ct)
+    {
+        var existing = (await _uow.Settings.FindAsync(s => s.SettingKey == "custom_css", ct)).FirstOrDefault();
+        if (existing != null)
+        {
+            existing.SettingValue = customCss ?? "";
+            existing.UpdatedAt = DateTime.UtcNow;
+            await _uow.Settings.UpdateAsync(existing, ct);
+        }
+        else
+        {
+            await _uow.Settings.AddAsync(new Setting
+            {
+                SettingKey = "custom_css",
+                SettingValue = customCss ?? "",
+                Group = "appearance"
+            }, ct);
+        }
+        await _uow.SaveChangesAsync(ct);
+        TempData["Success"] = "Custom CSS saved.";
+        return RedirectToAction(nameof(Appearance));
+    }
 }
+

@@ -1,0 +1,12 @@
+@{
+    var blockId = ViewBag.BlockId as string ?? "";
+}
+<div data-block-id="@blockId">
+    <h6 class="fw-semibold mb-3"><i class="bi bi-code-slash me-1"></i> HTML Settings</h6>
+    <div class="mb-2">
+        <label class="form-label small">HTML Code</label>
+        <textarea id="html-editor-@blockId" class="form-control form-control-sm font-monospace" rows="10"
+                  style="font-size:12px" data-field="code" placeholder="&lt;div&gt;Your HTML here...&lt;/div&gt;"></textarea>
+    </div>
+    <p class="text-warning small"><i class="bi bi-exclamation-triangle me-1"></i>HTML is rendered as-is. Use caution.</p>
+</div>

@@ -1,0 +1,14 @@
+@{
+    var src = ViewBag.Src as string ?? "";
+    var alt = ViewBag.Alt as string ?? "";
+    var caption = ViewBag.Caption as string ?? "";
+    var alignment = ViewBag.Alignment as string ?? "center";
+    string alignClass = alignment == "left" ? "text-start" : alignment == "right" ? "text-end" : "text-center";
+}
+<figure class="portfolio-image-block @alignClass">
+    <img src="@src" alt="@alt" class="img-fluid rounded" />
+    @if (!string.IsNullOrEmpty(caption))
+    {
+        <figcaption class="text-muted small mt-2">@caption</figcaption>
+    }
+</figure>

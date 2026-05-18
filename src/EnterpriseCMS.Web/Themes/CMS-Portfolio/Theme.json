@@ -1,0 +1,9 @@
+{
+  "Name": "CMS-Portfolio",
+  "Version": "1.0.0",
+  "Author": "EnterpriseCMS",
+  "Description": "Dark portfolio theme with full-bleed hero, masonry grid, and card hover effects",
+  "PreviewImage": "preview.jpg",
+  "SupportsWidgets": true,
+  "Areas": ["header", "footer", "sidebar"]
+}

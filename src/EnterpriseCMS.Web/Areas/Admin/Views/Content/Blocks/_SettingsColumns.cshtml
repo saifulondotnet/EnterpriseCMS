@@ -1,0 +1,22 @@
+@{
+    var blockId = ViewBag.BlockId as string ?? "";
+}
+<div data-block-id="@blockId">
+    <h6 class="fw-semibold mb-3"><i class="bi bi-layout-three-columns me-1"></i> Columns Settings</h6>
+    <div class="mb-2">
+        <label class="form-label small">Number of Columns</label>
+        <select class="form-select form-select-sm" data-field="count">
+            <option value="2">2 Columns</option>
+            <option value="3">3 Columns</option>
+            <option value="4">4 Columns</option>
+        </select>
+    </div>
+    <div class="mb-2">
+        <label class="form-label small">Gap</label>
+        <select class="form-select form-select-sm" data-field="gap">
+            <option value="g-2">Small</option>
+            <option value="g-3" selected>Medium</option>
+            <option value="g-4">Large</option>
+        </select>
+    </div>
+</div>

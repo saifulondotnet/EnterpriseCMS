@@ -1,0 +1,45 @@
+@using EnterpriseCMS.Application.Common.Models
+@model List<MenuDto>
+@{
+    ViewData["Title"] = "Menus";
+}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fs-5 fw-bold">Menus</h2>
+    <a asp-action="Create" class="btn btn-sm btn-primary"><i class="bi bi-plus-lg me-1"></i>New Menu</a>
+</div>
+<div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Name</th>
+                    <th>Slug</th>
+                    <th>Location</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var menu in Model)
+                {
+                    <tr>
+                        <td class="fw-semibold">@menu.Name</td>
+                        <td><code>@menu.Slug</code></td>
+                        <td><span class="badge bg-secondary">@menu.Location</span></td>
+                        <td class="text-end">
+                            <a asp-action="Edit" asp-route-id="@menu.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <form asp-action="Delete" asp-route-id="@menu.Id" method="post" class="d-inline"
+                                  onsubmit="return confirm('Delete this menu?')">
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="4" class="text-center text-muted py-4">No menus yet. <a asp-action="Create">Create one.</a></td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

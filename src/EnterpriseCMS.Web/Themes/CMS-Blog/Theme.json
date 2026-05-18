@@ -1,0 +1,9 @@
+{
+  "Name": "CMS-Blog",
+  "Version": "1.0.0",
+  "Author": "EnterpriseCMS",
+  "Description": "Clean reading-optimised blog theme with wide content column, sidebar, and featured post highlight",
+  "PreviewImage": "preview.jpg",
+  "SupportsWidgets": true,
+  "Areas": ["sidebar", "footer-col-1", "footer-col-2"]
+}

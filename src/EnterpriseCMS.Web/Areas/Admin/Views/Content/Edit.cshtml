@@ -8,103 +8,151 @@
     <h2 class="fs-5 fw-bold">Edit: @Model.Title</h2>
     <div class="d-flex gap-2 align-items-center">
         <span id="autoSaveStatus" class="text-muted small"></span>
+        <a asp-action="Preview" asp-route-id="@Model.Id" target="_blank" class="btn btn-sm btn-outline-info"><i class="bi bi-eye me-1"></i>Preview</a>
         <a asp-action="Index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back</a>
     </div>
 </div>
 <form asp-action="Edit" asp-route-id="@Model.Id" method="post" id="contentForm">
     @Html.AntiForgeryToken()
-    <div class="row g-4">
-        <div class="col-md-8">
-            <div class="card border-0 shadow-sm mb-4">
-                <div class="card-body">
-                    <div class="mb-3">
-                        <input type="text" name="Title" id="titleInput" class="form-control form-control-lg border-0 fs-4 fw-bold p-0" value="@Model.Title" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label small text-muted">Slug</label>
-                        <input type="text" name="Slug" id="slugInput" class="form-control form-control-sm" value="@Model.Slug" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Content</label>
-                        <textarea id="bodyEditor" name="Body" style="display:none">@Model.Body</textarea>
-                        <textarea id="tinyEditor">@Model.Body</textarea>
-                    </div>
-                    <input type="hidden" name="Blocks" id="blocksInput" value="@Model.Blocks" />
+    <div class="row g-0" style="min-height:calc(100vh - 160px)">
+        <!-- Left: Block Palette -->
+        <div class="col-auto bg-white border-end" style="width:250px;overflow-y:auto">
+            <div class="p-3">
+                <h6 class="text-muted text-uppercase small fw-bold mb-3">Block Palette</h6>
+                <div class="list-group list-group-flush" id="block-palette">
+                    @foreach (var block in new[] {
+                        ("text","bi-textarea-t","Text / Rich Text"),
+                        ("image","bi-image","Image"),
+                        ("columns","bi-layout-three-columns","Columns"),
+                        ("button","bi-hand-index-thumb","Button"),
+                        ("video","bi-play-circle","Video"),
+                        ("html","bi-code-slash","HTML"),
+                        ("divider","bi-dash-lg","Divider"),
+                        ("gallery","bi-grid-3x3","Gallery")
+                    })
+                    {
+                        <button type="button" class="list-group-item list-group-item-action d-flex align-items-center gap-2 px-2 py-2 border-0 add-block-btn"
+                                data-block-type="@block.Item1">
+                            <i class="bi @block.Item2 text-primary"></i>
+                            <span class="small">@block.Item3</span>
+                        </button>
+                    }
                 </div>
-            </div>
-            <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-white fw-semibold d-flex justify-content-between align-items-center">
-                    Version History
-                    <small class="text-muted">v@Model.CurrentVersion</small>
-                </div>
-                <div class="card-body"><p class="text-muted small mb-0">Version history tracking active. Changes auto-saved every 60s.</p></div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm mb-3">
-                <div class="card-header bg-white fw-semibold">Publish</div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label small">Status</label>
-                        <select name="Status" class="form-select form-select-sm">
-                            @foreach (ContentStatus s in Enum.GetValues(typeof(ContentStatus)))
-                            {
-                                <option value="@((int)s)" @(Model.Status == s ? "selected" : "")>@s</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label small">Publish Date</label>
-                        <input type="datetime-local" name="PublishedAt" class="form-control form-control-sm"
-                               value="@Model.PublishedAt?.ToString("yyyy-MM-ddTHH:mm")" />
-                    </div>
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Save Changes</button>
+        <!-- Center: Block Canvas -->
+        <div class="col bg-light" style="overflow-y:auto">
+            <div class="p-4">
+                <div class="mb-3">
+                    <input type="text" name="Title" id="titleInput" class="form-control form-control-lg border-0 shadow-sm fs-4 fw-bold" value="@Model.Title" placeholder="Page Title" />
+                </div>
+                <div class="mb-3">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text text-muted">Slug</span>
+                        <input type="text" name="Slug" id="slugInput" class="form-control" value="@Model.Slug" />
                     </div>
                 </div>
+                <div class="mb-3">
+                    <label class="form-label small text-muted">Excerpt</label>
+                    <textarea name="Excerpt" class="form-control form-control-sm" rows="2">@Model.Excerpt</textarea>
+                </div>
+                <div id="block-canvas" class="mb-3" style="min-height:200px">
+                    <!-- blocks injected by JS -->
+                </div>
+                <input type="hidden" name="Blocks" id="blocksInput" value="@Model.Blocks" />
+                <input type="hidden" name="Body" id="bodyInput" value="@Model.Body" />
             </div>
-            <div class="card border-0 shadow-sm mb-3">
-                <div class="card-header bg-white fw-semibold">SEO</div>
-                <div class="card-body">
-                    <div class="mb-2">
-                        <label class="form-label small">Meta Title</label>
-                        <input type="text" name="MetaTitle" class="form-control form-control-sm" value="@Model.MetaTitle" />
-                    </div>
-                    <div class="mb-2">
-                        <label class="form-label small">Meta Description</label>
-                        <textarea name="MetaDescription" class="form-control form-control-sm" rows="3">@Model.MetaDescription</textarea>
-                    </div>
+        </div>
+        <!-- Right: Settings Panel -->
+        <div class="col-auto bg-white border-start" style="width:300px;overflow-y:auto">
+            <div class="p-3">
+                <!-- Block Settings (loaded via AJAX) -->
+                <div id="block-settings-panel">
+                    <p class="text-muted small">Select a block to edit its settings.</p>
                 </div>
+                <hr />
+                <!-- Status & Publish -->
+                <h6 class="text-muted text-uppercase small fw-bold mb-2">Publish</h6>
+                <div class="mb-2">
+                    <label class="form-label small">Status</label>
+                    <select name="Status" class="form-select form-select-sm">
+                        @foreach (ContentStatus s in Enum.GetValues(typeof(ContentStatus)))
+                        {
+                            <option value="@((int)s)" @(Model.Status == s ? "selected" : "")>@s</option>
+                        }
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label small">Publish Date</label>
+                    <input type="datetime-local" name="PublishedAt" id="publishAtInput" class="form-control form-control-sm"
+                           value="@Model.PublishedAt?.ToString("yyyy-MM-ddTHH:mm")" />
+                </div>
+                <div class="d-grid gap-1 mb-2">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="bi bi-check-lg me-1"></i>Save</button>
+                </div>
+                <div class="d-flex gap-1 flex-wrap mb-2">
+                    <form asp-action="Publish" asp-route-id="@Model.Id" method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <button class="btn btn-sm btn-success">Publish</button>
+                    </form>
+                    <form asp-action="Unpublish" asp-route-id="@Model.Id" method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <button class="btn btn-sm btn-warning">Unpublish</button>
+                    </form>
+                    <form asp-action="SubmitForReview" asp-route-id="@Model.Id" method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <button class="btn btn-sm btn-info">Submit Review</button>
+                    </form>
+                    <form asp-action="Archive" asp-route-id="@Model.Id" method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <button class="btn btn-sm btn-secondary">Archive</button>
+                    </form>
+                    <form asp-action="Duplicate" asp-route-id="@Model.Id" method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <button class="btn btn-sm btn-outline-primary">Duplicate</button>
+                    </form>
+                </div>
+                <!-- Schedule -->
+                <form asp-action="Schedule" asp-route-id="@Model.Id" method="post" class="mb-3">
+                    @Html.AntiForgeryToken()
+                    <div class="input-group input-group-sm">
+                        <input type="datetime-local" name="publishAt" class="form-control" />
+                        <button class="btn btn-outline-secondary" type="submit">Schedule</button>
+                    </div>
+                </form>
+                <hr />
+                <!-- SEO -->
+                <h6 class="text-muted text-uppercase small fw-bold mb-2">SEO</h6>
+                <div class="mb-2">
+                    <label class="form-label small">Meta Title</label>
+                    <input type="text" name="MetaTitle" class="form-control form-control-sm" value="@Model.MetaTitle" />
+                </div>
+                <div class="mb-2">
+                    <label class="form-label small">Meta Description</label>
+                    <textarea name="MetaDescription" class="form-control form-control-sm" rows="3">@Model.MetaDescription</textarea>
+                </div>
+                <hr />
+                <p class="text-muted small mb-0">Version: v@Model.CurrentVersion</p>
+                <p class="text-muted small">Last saved: @Model.UpdatedAt?.ToString("g")</p>
             </div>
         </div>
     </div>
 </form>
 @section Scripts {
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-ui@1.13.3/themes/base/jquery-ui.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-ui@1.13.3/dist/jquery-ui.min.js"></script>
+<script src="~/js/admin/content-editor.js" asp-append-version="true"></script>
 <script>
-    tinymce.init({
-        selector: '#tinyEditor',
-        plugins: 'autolink lists link image charmap preview anchor searchreplace fullscreen media table code',
-        toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | fullscreen code',
-        height: 500,
-        setup: function(ed) {
-            ed.on('change keyup', function() { document.getElementById('bodyEditor').value = ed.getContent(); });
-        }
+$(function() {
+    window.CmsEditor.init({
+        blocks: @Html.Raw(Model.Blocks ?? "[]"),
+        contentId: '@Model.Id',
+        autoSaveUrl: '@Url.Action("AutoSave", new { id = Model.Id })',
+        blockSettingsUrl: '@Url.Action("BlockSettingsPartial")',
+        csrfToken: $('input[name=__RequestVerificationToken]').first().val()
     });
-    // Auto-save every 60 seconds
-    let autoSaveTimer = setInterval(function() {
-        const formData = new FormData(document.getElementById('contentForm'));
-        formData.set('Body', tinymce.activeEditor?.getContent() || '');
-        fetch('@Url.Action("AutoSave", new { id = Model.Id })', {
-            method: 'POST', body: formData,
-            headers: { 'RequestVerificationToken': document.querySelector('[name=__RequestVerificationToken]').value }
-        }).then(r => r.json()).then(d => {
-            if(d.success) {
-                const el = document.getElementById('autoSaveStatus');
-                el.textContent = 'Auto-saved at ' + new Date(d.savedAt).toLocaleTimeString();
-                setTimeout(() => el.textContent = '', 5000);
-            }
-        });
-    }, 60000);
+});
 </script>
 }
+

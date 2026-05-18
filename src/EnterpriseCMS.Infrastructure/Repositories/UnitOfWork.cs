@@ -23,6 +23,8 @@ public class UnitOfWork : IUnitOfWork
         Menus = new BaseRepository<Menu>(db);
         MenuItems = new BaseRepository<MenuItem>(db);
         AuditLogs = new BaseRepository<AuditLog>(db);
+        Widgets = new BaseRepository<Widget>(db);
+        Redirects = new BaseRepository<Redirect>(db);
     }
 
     public IRepository<Content> Contents { get; }
@@ -36,6 +38,8 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<Menu> Menus { get; }
     public IRepository<MenuItem> MenuItems { get; }
     public IRepository<AuditLog> AuditLogs { get; }
+    public IRepository<Widget> Widgets { get; }
+    public IRepository<Redirect> Redirects { get; }
 
     public Task<int> SaveChangesAsync(CancellationToken ct = default) => _db.SaveChangesAsync(ct);
 
