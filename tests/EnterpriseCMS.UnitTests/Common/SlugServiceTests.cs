@@ -34,4 +34,25 @@ public class SlugServiceTests
             _ => Task.FromResult(calls++ < 2));
         result.Should().Be("my-page-2");
     }
+
+    [Theory]
+    [InlineData("Hello--World", "hello-world")]
+    [InlineData("123 Numbers Here", "123-numbers-here")]
+    [InlineData("", "")]
+    [InlineData("   ", "")]
+    [InlineData("Ünïcödé", "unicode")]
+    public void Generate_ShouldHandleEdgeCases(string input, string expected)
+    {
+        var result = _slugService.Generate(input);
+        result.Should().Be(expected);
+    }
+
+    [Fact]
+    public async Task GenerateUniqueAsync_ShouldKeepAppendingNumbers_UntilUnique()
+    {
+        var calls = 0;
+        var result = await _slugService.GenerateUniqueAsync("My Page",
+            _ => Task.FromResult(calls++ < 5));
+        result.Should().Be("my-page-5");
+    }
 }

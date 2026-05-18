@@ -220,6 +220,8 @@ namespace EnterpriseCMS.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TenantId", "CreatedAt");
+
                     b.ToTable("AuditLogs");
                 });
 
@@ -380,6 +382,8 @@ namespace EnterpriseCMS.Infrastructure.Data.Migrations
                         .IsUnique();
 
                     b.HasIndex("TenantId", "Status");
+
+                    b.HasIndex("TenantId", "Status", "PublishedAt");
 
                     b.ToTable("Contents");
                 });
@@ -604,6 +608,8 @@ namespace EnterpriseCMS.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FolderId");
+
+                    b.HasIndex("TenantId", "FolderId");
 
                     b.ToTable("MediaAssets");
                 });

@@ -104,6 +104,15 @@ builder.Services.Configure<MaintenanceModeOptions>(
 // Memory cache for redirect middleware
 builder.Services.AddMemoryCache();
 
+builder.Services.AddResponseCompression(opts =>
+{
+    opts.EnableForHttps = true;
+    opts.Providers.Add<Microsoft.AspNetCore.ResponseCompression.BrotliCompressionProvider>();
+    opts.Providers.Add<Microsoft.AspNetCore.ResponseCompression.GzipCompressionProvider>();
+});
+
+builder.Services.AddOutputCache();
+
 // Anti-forgery
 builder.Services.AddAntiforgery(opts =>
 {
@@ -126,6 +135,8 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+app.UseResponseCompression();
+
 // Pipeline
 if (!app.Environment.IsProduction())
 {
@@ -139,6 +150,7 @@ else
     app.UseHsts();
 }
 
+app.UseGlobalExceptionHandler();
 app.UseSecurityHeaders();
 app.UseMaintenanceMode();
 app.UseHttpsRedirection();
@@ -149,6 +161,7 @@ app.UseRouting();
 app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseOutputCache();
 
 // Hangfire dashboard (admin only)
 app.UseHangfireDashboard("/admin/jobs", new DashboardOptions
@@ -156,11 +169,14 @@ app.UseHangfireDashboard("/admin/jobs", new DashboardOptions
     Authorization = new[] { new EnterpriseCMS.Web.Extensions.HangfireAuthFilter() }
 });
 
-// Register recurring Hangfire jobs
-RecurringJob.AddOrUpdate<ScheduledContentJob>(
-    "publish-scheduled-content",
-    job => job.ExecuteAsync(),
-    Cron.Minutely);
+// Register recurring Hangfire jobs (skip in Test environment)
+if (!app.Environment.IsEnvironment("Test"))
+{
+    RecurringJob.AddOrUpdate<ScheduledContentJob>(
+        "publish-scheduled-content",
+        job => job.ExecuteAsync(),
+        Cron.Minutely);
+}
 
 // Health check endpoint
 app.MapHealthChecks("/health");
@@ -181,11 +197,14 @@ app.MapControllerRoute(
     pattern: "{slug}",
     defaults: new { controller = "Home", action = "Page" });
 
-// Apply migrations and seed reference/demo data
-using (var scope = app.Services.CreateScope())
+// Apply migrations and seed reference/demo data (skip in Test environment)
+if (!app.Environment.IsEnvironment("Test"))
 {
+    using var scope = app.Services.CreateScope();
     var initializer = scope.ServiceProvider.GetRequiredService<EnterpriseCMS.Infrastructure.Data.DbInitializer>();
     await initializer.InitialiseAsync();
 }
 
 app.Run();
+
+public partial class Program { }

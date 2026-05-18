@@ -14,7 +14,7 @@ public class GetMediaQueryHandler : IRequestHandler<GetMediaQuery, PagedResult<M
 
     public async Task<PagedResult<MediaAssetDto>> Handle(GetMediaQuery request, CancellationToken ct)
     {
-        var query = _uow.MediaAssets.Query();
+        var query = _uow.MediaAssets.Query().AsNoTracking();
         if (request.FolderId.HasValue) query = query.Where(m => m.FolderId == request.FolderId);
         if (request.MediaType.HasValue) query = query.Where(m => m.MediaType == request.MediaType);
         if (!string.IsNullOrWhiteSpace(request.Search))

@@ -1,0 +1,22 @@
+@if (Context.Request.Cookies["cookie_consent"] == null)
+{
+    <div id="cookieConsent" class="position-fixed bottom-0 start-0 end-0 bg-dark text-white p-3 shadow-lg" style="z-index:9999">
+        <div class="container d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <p class="mb-0 small">
+                We use cookies to improve your experience. By continuing, you agree to our use of cookies.
+                <a href="/privacy" class="text-warning">Learn more</a>
+            </p>
+            <div class="d-flex gap-2 flex-shrink-0">
+                <button class="btn btn-sm btn-warning" onclick="setCookieConsent('all')">Accept All</button>
+                <button class="btn btn-sm btn-outline-light" onclick="setCookieConsent('necessary')">Necessary Only</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function setCookieConsent(type) {
+            document.cookie = 'cookie_consent=' + type + '; path=/; max-age=31536000; SameSite=Lax';
+            var banner = document.getElementById('cookieConsent');
+            if (banner) banner.style.display = 'none';
+        }
+    </script>
+}

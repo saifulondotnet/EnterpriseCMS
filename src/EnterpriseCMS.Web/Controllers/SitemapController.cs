@@ -15,6 +15,7 @@ public class SitemapController : Controller
     public SitemapController(IMediator mediator) => _mediator = mediator;
 
     [ResponseCache(Duration = 3600)]
+    [Microsoft.AspNetCore.OutputCaching.OutputCache(Duration = 3600)]
     public async Task<IActionResult> Index(CancellationToken ct)
     {
         var contents = await _mediator.Send(
