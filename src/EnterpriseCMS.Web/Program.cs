@@ -1,9 +1,8 @@
-using System.Text;
-using System.Threading.RateLimiting;
 using EnterpriseCMS.Application;
 using EnterpriseCMS.Core.Interfaces;
 using EnterpriseCMS.Infrastructure;
 using EnterpriseCMS.Infrastructure.BackgroundJobs;
+using EnterpriseCMS.Infrastructure.Data;
 using EnterpriseCMS.Web.Extensions;
 using EnterpriseCMS.Web.HealthChecks;
 using EnterpriseCMS.Web.Middleware;
@@ -13,6 +12,8 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using System.Text;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -179,5 +180,12 @@ app.MapControllerRoute(
     name: "cmspage",
     pattern: "{slug}",
     defaults: new { controller = "Home", action = "Page" });
+
+// Apply migrations and seed reference/demo data
+using (var scope = app.Services.CreateScope())
+{
+    var initializer = scope.ServiceProvider.GetRequiredService<EnterpriseCMS.Infrastructure.Data.DbInitializer>();
+    await initializer.InitialiseAsync();
+}
 
 app.Run();

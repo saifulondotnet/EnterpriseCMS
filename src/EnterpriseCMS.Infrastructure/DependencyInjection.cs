@@ -53,6 +53,8 @@ public static class DependencyInjection
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<ISchemaOrgService, SchemaOrgService>();
         services.AddScoped<ScheduledContentJob>();
+        services.AddScoped<DbSeeder>();
+        services.AddScoped<DbInitializer>();
 
         // Redis cache
         var redisConn = config.GetConnectionString("Redis");

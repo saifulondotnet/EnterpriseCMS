@@ -48,7 +48,7 @@ public class CmsDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
             e.HasIndex(c => c.Slug).IsUnique();
             e.HasIndex(c => new { c.TenantId, c.Status });
             e.HasOne(c => c.Author).WithMany().HasForeignKey(c => c.AuthorId).OnDelete(DeleteBehavior.SetNull);
-            e.HasOne(c => c.Parent).WithMany(c => c.Children).HasForeignKey(c => c.ParentId).OnDelete(DeleteBehavior.SetNull);
+            e.HasOne(c => c.Parent).WithMany(c => c.Children).HasForeignKey(c => c.ParentId).OnDelete(DeleteBehavior.ClientSetNull);
             e.HasMany(c => c.Versions).WithOne(v => v.Content).HasForeignKey(v => v.ContentId).OnDelete(DeleteBehavior.Cascade);
             e.HasMany(c => c.Meta).WithOne(m => m.Content).HasForeignKey(m => m.ContentId).OnDelete(DeleteBehavior.Cascade);
         });
@@ -75,6 +75,14 @@ public class CmsDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
         // Menu
         builder.Entity<MenuItem>()
             .HasOne(mi => mi.Parent).WithMany(mi => mi.Children).HasForeignKey(mi => mi.ParentId).OnDelete(DeleteBehavior.Restrict);
+
+        // Category self-reference
+        builder.Entity<Category>()
+            .HasOne(c => c.Parent).WithMany(c => c.Children).HasForeignKey(c => c.ParentId).OnDelete(DeleteBehavior.ClientSetNull);
+
+        // MediaFolder self-reference
+        builder.Entity<MediaFolder>()
+            .HasOne(f => f.Parent).WithMany(f => f.Children).HasForeignKey(f => f.ParentId).OnDelete(DeleteBehavior.ClientSetNull);
 
         builder.Entity<Widget>().HasQueryFilter(e => !e.IsDeleted);
         builder.Entity<Redirect>().HasQueryFilter(e => !e.IsDeleted);
