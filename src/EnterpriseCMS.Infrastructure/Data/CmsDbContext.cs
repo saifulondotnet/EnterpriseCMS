@@ -47,10 +47,21 @@ public class CmsDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
         builder.Entity<Content>(e => {
             e.HasIndex(c => c.Slug).IsUnique();
             e.HasIndex(c => new { c.TenantId, c.Status });
+            e.HasIndex(c => new { c.TenantId, c.Status, c.PublishedAt });
             e.HasOne(c => c.Author).WithMany().HasForeignKey(c => c.AuthorId).OnDelete(DeleteBehavior.SetNull);
             e.HasOne(c => c.Parent).WithMany(c => c.Children).HasForeignKey(c => c.ParentId).OnDelete(DeleteBehavior.ClientSetNull);
             e.HasMany(c => c.Versions).WithOne(v => v.Content).HasForeignKey(v => v.ContentId).OnDelete(DeleteBehavior.Cascade);
             e.HasMany(c => c.Meta).WithOne(m => m.Content).HasForeignKey(m => m.ContentId).OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // MediaAsset index
+        builder.Entity<MediaAsset>(e => {
+            e.HasIndex(m => new { m.TenantId, m.FolderId });
+        });
+
+        // AuditLog index
+        builder.Entity<AuditLog>(e => {
+            e.HasIndex(a => new { a.TenantId, a.CreatedAt });
         });
 
         // Many-to-many

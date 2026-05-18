@@ -1,0 +1,26 @@
+@{
+    ViewData["Title"] = "Setup — Step 2";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <div class="progress mb-2" style="height:6px">
+                    <div class="progress-bar" style="width:40%"></div>
+                </div>
+                <h5 class="mb-0"><i class="bi bi-person-check me-2"></i>Step 2 of 5 — Admin Account</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Your admin account has been created during installation. You're logged in as <strong>@User.Identity?.Name</strong>.</p>
+                <form asp-action="Step2Post" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Step1" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back</a>
+                        <button type="submit" class="btn btn-primary">Next <i class="bi bi-arrow-right ms-1"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

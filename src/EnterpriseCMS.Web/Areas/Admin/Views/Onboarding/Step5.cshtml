@@ -1,0 +1,34 @@
+@{
+    ViewData["Title"] = "Setup — Step 5";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <div class="progress mb-2" style="height:6px">
+                    <div class="progress-bar" style="width:100%"></div>
+                </div>
+                <h5 class="mb-0"><i class="bi bi-rocket me-2"></i>Step 5 of 5 — Launch Checklist</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush mb-3">
+                    <li class="list-group-item d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i>Site name configured</li>
+                    <li class="list-group-item d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i>Admin account ready</li>
+                    <li class="list-group-item d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i>Theme selected</li>
+                    <li class="list-group-item d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i>Content setup complete</li>
+                </ul>
+                <div class="alert alert-success">
+                    <i class="bi bi-stars me-2"></i>Your CMS is ready to launch!
+                </div>
+                <form asp-action="Complete" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Step4" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back</a>
+                        <button type="submit" class="btn btn-success"><i class="bi bi-rocket me-1"></i>Launch!</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

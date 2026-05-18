@@ -104,6 +104,15 @@ builder.Services.Configure<MaintenanceModeOptions>(
 // Memory cache for redirect middleware
 builder.Services.AddMemoryCache();
 
+builder.Services.AddResponseCompression(opts =>
+{
+    opts.EnableForHttps = true;
+    opts.Providers.Add<Microsoft.AspNetCore.ResponseCompression.BrotliCompressionProvider>();
+    opts.Providers.Add<Microsoft.AspNetCore.ResponseCompression.GzipCompressionProvider>();
+});
+
+builder.Services.AddOutputCache();
+
 // Anti-forgery
 builder.Services.AddAntiforgery(opts =>
 {
@@ -126,6 +135,8 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+app.UseResponseCompression();
+
 // Pipeline
 if (!app.Environment.IsProduction())
 {
@@ -139,6 +150,7 @@ else
     app.UseHsts();
 }
 
+app.UseGlobalExceptionHandler();
 app.UseSecurityHeaders();
 app.UseMaintenanceMode();
 app.UseHttpsRedirection();
@@ -149,6 +161,7 @@ app.UseRouting();
 app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseOutputCache();
 
 // Hangfire dashboard (admin only)
 app.UseHangfireDashboard("/admin/jobs", new DashboardOptions
@@ -189,3 +202,5 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
+
+public partial class Program { }

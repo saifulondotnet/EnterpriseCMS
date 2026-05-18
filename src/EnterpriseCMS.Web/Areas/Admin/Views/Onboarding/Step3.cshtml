@@ -1,0 +1,33 @@
+@{
+    ViewData["Title"] = "Setup — Step 3";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <div class="progress mb-2" style="height:6px">
+                    <div class="progress-bar" style="width:60%"></div>
+                </div>
+                <h5 class="mb-0"><i class="bi bi-palette me-2"></i>Step 3 of 5 — Theme Selection</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Choose Theme</label>
+                        <select name="theme" class="form-select">
+                            <option value="CMS-Clean">CMS Clean (Default)</option>
+                            <option value="CMS-Blog">CMS Blog</option>
+                            <option value="CMS-Portfolio">CMS Portfolio</option>
+                        </select>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Step2" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back</a>
+                        <button type="submit" class="btn btn-primary">Next <i class="bi bi-arrow-right ms-1"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

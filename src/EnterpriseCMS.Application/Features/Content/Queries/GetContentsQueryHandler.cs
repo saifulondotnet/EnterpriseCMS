@@ -13,7 +13,7 @@ public class GetContentsQueryHandler : IRequestHandler<GetContentsQuery, PagedRe
 
     public async Task<PagedResult<ContentDto>> Handle(GetContentsQuery request, CancellationToken ct)
     {
-        var query = _uow.Contents.Query();
+        var query = _uow.Contents.Query().AsNoTracking();
 
         if (!string.IsNullOrWhiteSpace(request.Search))
             query = query.Where(c => c.Title.Contains(request.Search) || c.Slug.Contains(request.Search));
