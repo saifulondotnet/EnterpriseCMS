@@ -28,6 +28,8 @@ public class CmsDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
     public DbSet<Menu> Menus => Set<Menu>();
     public DbSet<MenuItem> MenuItems => Set<MenuItem>();
+    public DbSet<Widget> Widgets => Set<Widget>();
+    public DbSet<Redirect> Redirects => Set<Redirect>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -73,5 +75,8 @@ public class CmsDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
         // Menu
         builder.Entity<MenuItem>()
             .HasOne(mi => mi.Parent).WithMany(mi => mi.Children).HasForeignKey(mi => mi.ParentId).OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<Widget>().HasQueryFilter(e => !e.IsDeleted);
+        builder.Entity<Redirect>().HasQueryFilter(e => !e.IsDeleted);
     }
 }

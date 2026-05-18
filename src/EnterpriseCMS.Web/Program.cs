@@ -3,6 +3,7 @@ using System.Threading.RateLimiting;
 using EnterpriseCMS.Application;
 using EnterpriseCMS.Core.Interfaces;
 using EnterpriseCMS.Infrastructure;
+using EnterpriseCMS.Infrastructure.BackgroundJobs;
 using EnterpriseCMS.Web.Extensions;
 using EnterpriseCMS.Web.HealthChecks;
 using EnterpriseCMS.Web.Middleware;
@@ -99,6 +100,9 @@ builder.Services.AddHealthChecks()
 builder.Services.Configure<MaintenanceModeOptions>(
     builder.Configuration.GetSection("Maintenance"));
 
+// Memory cache for redirect middleware
+builder.Services.AddMemoryCache();
+
 // Anti-forgery
 builder.Services.AddAntiforgery(opts =>
 {
@@ -139,6 +143,7 @@ app.UseMaintenanceMode();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseThemeStaticFiles(app.Environment);
+app.UseRedirectMiddleware();
 app.UseRouting();
 app.UseRateLimiter();
 app.UseAuthentication();
@@ -149,6 +154,12 @@ app.UseHangfireDashboard("/admin/jobs", new DashboardOptions
 {
     Authorization = new[] { new EnterpriseCMS.Web.Extensions.HangfireAuthFilter() }
 });
+
+// Register recurring Hangfire jobs
+RecurringJob.AddOrUpdate<ScheduledContentJob>(
+    "publish-scheduled-content",
+    job => job.ExecuteAsync(),
+    Cron.Minutely);
 
 // Health check endpoint
 app.MapHealthChecks("/health");

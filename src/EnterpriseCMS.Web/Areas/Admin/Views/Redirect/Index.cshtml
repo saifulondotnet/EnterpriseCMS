@@ -1,0 +1,49 @@
+@using EnterpriseCMS.Application.Common.Models
+@model List<RedirectDto>
+@{
+    ViewData["Title"] = "Redirects";
+}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fs-5 fw-bold">URL Redirects</h2>
+    <a asp-action="Create" class="btn btn-sm btn-primary"><i class="bi bi-plus-lg me-1"></i>New Redirect</a>
+</div>
+<div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model)
+                {
+                    <tr>
+                        <td><code>@r.FromSlug</code></td>
+                        <td><code>@r.ToSlug</code></td>
+                        <td>@(r.IsRegex ? "Regex" : "Exact")</td>
+                        <td><span class="badge @(r.StatusCode == 301 ? "bg-primary" : "bg-warning text-dark")">@r.StatusCode</span></td>
+                        <td class="text-muted small">@r.CreatedAt.ToString("yyyy-MM-dd")</td>
+                        <td class="text-end">
+                            <a asp-action="Edit" asp-route-id="@r.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            <form asp-action="Delete" asp-route-id="@r.Id" method="post" class="d-inline"
+                                  onsubmit="return confirm('Delete this redirect?')">
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="6" class="text-center text-muted py-4">No redirects configured.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

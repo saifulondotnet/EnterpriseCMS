@@ -85,6 +85,94 @@ public class ContentController : Controller
             return Json(new { success = false });
         }
     }
+
+    // Block Builder AJAX endpoints
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult AddBlock([FromBody] AddBlockRequest req)
+    {
+        var block = new { id = Guid.NewGuid().ToString(), type = req.BlockType, order = req.Order, data = new { } };
+        return Json(new { success = true, block });
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult ReorderBlocks([FromBody] ReorderBlocksRequest req) =>
+        Json(new { success = true, order = req.Order });
+
+    [HttpDelete("{blockId}"), ValidateAntiForgeryToken]
+    public IActionResult DeleteBlock(string blockId) => Json(new { success = true });
+
+    [HttpGet("Admin/Content/blocks/{blockType}/settings-partial")]
+    public IActionResult BlockSettingsPartial(string blockType, string? blockId)
+    {
+        ViewBag.BlockId = blockId ?? Guid.NewGuid().ToString();
+        var titleCase = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(blockType.ToLower());
+        return PartialView($"Blocks/_Settings{titleCase}", null);
+    }
+
+    // Preview
+    [HttpGet]
+    public async Task<IActionResult> Preview(Guid id, CancellationToken ct)
+    {
+        var content = await _mediator.Send(new GetContentByIdQuery(id), ct);
+        return View("Preview", content);
+    }
+
+    // Publishing workflow
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Publish(Guid id, CancellationToken ct)
+    {
+        await _mediator.Send(new PublishContentCommand(id), ct);
+        TempData["Success"] = "Content published.";
+        return RedirectToAction(nameof(Edit), new { id });
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Unpublish(Guid id, CancellationToken ct)
+    {
+        await _mediator.Send(new UnpublishContentCommand(id), ct);
+        TempData["Success"] = "Content unpublished.";
+        return RedirectToAction(nameof(Edit), new { id });
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> SubmitForReview(Guid id, CancellationToken ct)
+    {
+        await _mediator.Send(new SubmitForReviewCommand(id), ct);
+        TempData["Success"] = "Submitted for review.";
+        return RedirectToAction(nameof(Edit), new { id });
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Schedule(Guid id, DateTime publishAt, CancellationToken ct)
+    {
+        await _mediator.Send(new ScheduleContentCommand(id, publishAt), ct);
+        TempData["Success"] = "Content scheduled.";
+        return RedirectToAction(nameof(Edit), new { id });
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Archive(Guid id, CancellationToken ct)
+    {
+        await _mediator.Send(new ArchiveContentCommand(id), ct);
+        TempData["Success"] = "Content archived.";
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Duplicate(Guid id, CancellationToken ct)
+    {
+        var result = await _mediator.Send(new DuplicateContentCommand(id), ct);
+        TempData["Success"] = "Content duplicated.";
+        return RedirectToAction(nameof(Edit), new { id = result.Id });
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Bulk(BulkActionViewModel vm, CancellationToken ct)
+    {
+        await _mediator.Send(new BulkContentActionCommand(vm.ContentIds, vm.Action), ct);
+        TempData["Success"] = $"Bulk action '{vm.Action}' applied.";
+        return RedirectToAction(nameof(Index));
+    }
 }
 
 public class CreateContentViewModel
@@ -102,3 +190,21 @@ public class CreateContentViewModel
 }
 
 public class UpdateContentViewModel : CreateContentViewModel { }
+
+public class AddBlockRequest
+{
+    public string BlockType { get; set; } = string.Empty;
+    public int Order { get; set; }
+}
+
+public class ReorderBlocksRequest
+{
+    public List<string> Order { get; set; } = new();
+}
+
+public class BulkActionViewModel
+{
+    public List<Guid> ContentIds { get; set; } = new();
+    public string Action { get; set; } = string.Empty;
+}
+

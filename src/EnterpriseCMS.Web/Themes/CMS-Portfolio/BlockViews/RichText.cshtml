@@ -1,0 +1,4 @@
+@model EnterpriseCMS.Application.Common.Models.ContentDto
+<div class="rich-text-block prose">
+    @Html.Raw(Model?.Body ?? "")
+</div>

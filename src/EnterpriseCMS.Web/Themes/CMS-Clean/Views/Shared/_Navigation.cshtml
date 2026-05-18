@@ -1,0 +1,26 @@
+@inject EnterpriseCMS.Core.Interfaces.IUnitOfWork uow
+@{
+    var menus = await uow.Menus.FindAsync(m => m.Location == "primary");
+    var primaryMenu = menus.FirstOrDefault();
+    var items = primaryMenu != null
+        ? (await uow.MenuItems.FindAsync(mi => mi.MenuId == primaryMenu.Id)).Where(mi => mi.ParentId == null).OrderBy(mi => mi.SortOrder).ToList()
+        : new List<EnterpriseCMS.Core.Entities.MenuItem>();
+}
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/">@(ViewData["SiteName"] ?? "EnterpriseCMS")</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto">
+                @foreach (var item in items)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @item.CssClass" href="@item.Url" target="@item.Target">@item.Label</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>

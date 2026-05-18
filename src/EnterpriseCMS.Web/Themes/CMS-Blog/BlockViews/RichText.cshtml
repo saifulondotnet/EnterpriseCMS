@@ -1,0 +1,4 @@
+@model EnterpriseCMS.Application.Common.Models.ContentDto
+<article class="blog-article">
+    @Html.Raw(Model?.Body ?? "")
+</article>

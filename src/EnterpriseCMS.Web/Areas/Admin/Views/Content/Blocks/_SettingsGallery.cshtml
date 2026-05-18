@@ -1,0 +1,23 @@
+@{
+    var blockId = ViewBag.BlockId as string ?? "";
+}
+<div data-block-id="@blockId">
+    <h6 class="fw-semibold mb-3"><i class="bi bi-grid-3x3 me-1"></i> Gallery Settings</h6>
+    <div class="mb-2">
+        <label class="form-label small">Image URLs (one per line)</label>
+        <textarea class="form-control form-control-sm" rows="5" placeholder="https://example.com/img1.jpg&#10;https://example.com/img2.jpg"
+                  data-field="images"></textarea>
+    </div>
+    <div class="mb-2">
+        <label class="form-label small">Columns</label>
+        <select class="form-select form-select-sm" data-field="columns">
+            <option value="2">2 Columns</option>
+            <option value="3" selected>3 Columns</option>
+            <option value="4">4 Columns</option>
+        </select>
+    </div>
+    <div class="mb-2 form-check">
+        <input type="checkbox" class="form-check-input" id="gallery-lightbox-@blockId" data-field="lightbox" checked />
+        <label class="form-check-label small" for="gallery-lightbox-@blockId">Enable Lightbox</label>
+    </div>
+</div>

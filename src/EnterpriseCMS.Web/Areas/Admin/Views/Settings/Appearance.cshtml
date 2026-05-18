@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Appearance Settings";
+}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fs-5 fw-bold">Appearance</h2>
+    <a asp-action="Index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Settings</a>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header fw-semibold">Custom CSS</div>
+    <div class="card-body">
+        <p class="text-muted small mb-3">Add custom CSS to override theme styles site-wide. Changes apply immediately after saving.</p>
+        <form asp-action="SaveCss" method="post">
+            @Html.AntiForgeryToken()
+            <div class="mb-3">
+                <textarea id="customCssEditor" name="customCss" class="form-control font-monospace"
+                          style="min-height:400px;font-size:13px" placeholder="/* Custom CSS */&#10;body { }">@ViewBag.CustomCss</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Save CSS</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+$(function() {
+    // Basic syntax highlight hint for textarea
+    $('#customCssEditor').on('keydown', function(e) {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            var pos = this.selectionStart;
+            var val = $(this).val();
+            $(this).val(val.substring(0, pos) + '    ' + val.substring(this.selectionEnd));
+            this.selectionStart = this.selectionEnd = pos + 4;
+        }
+    });
+});
+</script>
+}

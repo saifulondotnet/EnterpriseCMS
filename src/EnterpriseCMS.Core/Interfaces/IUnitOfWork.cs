@@ -15,5 +15,7 @@ public interface IUnitOfWork : IDisposable
     IRepository<Menu> Menus { get; }
     IRepository<MenuItem> MenuItems { get; }
     IRepository<AuditLog> AuditLogs { get; }
+    IRepository<Widget> Widgets { get; }
+    IRepository<Redirect> Redirects { get; }
     Task<int> SaveChangesAsync(CancellationToken ct = default);
 }

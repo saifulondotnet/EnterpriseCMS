@@ -1,0 +1,13 @@
+@{
+    var count = ViewBag.Count as int? ?? 2;
+    var gap = ViewBag.Gap as string ?? "g-3";
+    var colClass = count == 2 ? "col-md-6" : count == 3 ? "col-md-4" : "col-md-3";
+}
+<div class="row @gap portfolio-columns-block">
+    @for (int i = 0; i < count; i++)
+    {
+        <div class="@colClass">
+            @RenderSection("Column" + (i + 1), required: false)
+        </div>
+    }
+</div>

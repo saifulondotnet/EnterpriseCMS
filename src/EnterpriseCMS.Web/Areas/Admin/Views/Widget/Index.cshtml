@@ -1,0 +1,98 @@
+@using EnterpriseCMS.Application.Common.Models
+@model Dictionary<string, List<WidgetDto>>
+@{
+    ViewData["Title"] = "Widgets";
+    var areas = new[] { "sidebar", "footer", "header", "content-top", "content-bottom" };
+}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fs-5 fw-bold">Widget Areas</h2>
+    <button class="btn btn-sm btn-success" id="saveAllBtn"><i class="bi bi-check-lg me-1"></i>Save All</button>
+</div>
+
+@foreach (var area in areas)
+{
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span class="fw-semibold text-capitalize">@area.Replace("-", " ")</span>
+            <button class="btn btn-sm btn-primary add-widget-btn" data-area="@area">
+                <i class="bi bi-plus-lg me-1"></i>Add Widget
+            </button>
+        </div>
+        <div class="card-body widget-area" data-area="@area" style="min-height:80px">
+            @if (Model.TryGetValue(area, out var widgets))
+            {
+                @foreach (var w in widgets.OrderBy(x => x.Order))
+                {
+                    <div class="widget-card card mb-2" data-widget-id="@w.Id" data-area="@area">
+                        <div class="card-body py-2 px-3 d-flex align-items-center gap-2">
+                            <span class="bi bi-grip-vertical text-muted" style="cursor:grab"></span>
+                            <span class="fw-semibold flex-grow-1">@w.Title</span>
+                            <span class="badge bg-info text-dark">@w.WidgetType</span>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input widget-active" type="checkbox" @(w.IsActive ? "checked" : "") />
+                            </div>
+                            <form asp-action="Delete" asp-route-id="@w.Id" method="post" class="d-inline"
+                                  onsubmit="return confirm('Delete widget?')">
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-sm btn-outline-danger py-0"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}
+
+@section Scripts {
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-ui@1.13.3/dist/jquery-ui.min.js"></script>
+<script>
+$(function() {
+    $('.widget-area').sortable({ connectWith: '.widget-area', handle: '.bi-grip-vertical' });
+
+    $('.add-widget-btn').on('click', function() {
+        var area = $(this).data('area');
+        var title = prompt('Widget Title:');
+        if (!title) return;
+        var type = prompt('Widget Type (text/html/menu/recent-posts):') || 'text';
+        var $card = $('<div class="widget-card card mb-2" data-widget-id="" data-area="' + area + '">');
+        $card.html('<div class="card-body py-2 px-3 d-flex align-items-center gap-2">'
+            + '<span class="bi bi-grip-vertical text-muted" style="cursor:grab"></span>'
+            + '<span class="fw-semibold flex-grow-1">' + $('<div>').text(title).html() + '</span>'
+            + '<span class="badge bg-info text-dark">' + $('<div>').text(type).html() + '</span>'
+            + '<div class="form-check form-switch mb-0"><input class="form-check-input widget-active" type="checkbox" checked /></div>'
+            + '</div>');
+        $card.data('newWidget', { title: title, widgetType: type });
+        $('[data-area="' + area + '"].widget-area').append($card);
+    });
+
+    $('#saveAllBtn').on('click', function() {
+        var widgets = [];
+        $('.widget-card').each(function(i) {
+            var $c = $(this);
+            var existing = $c.data('widget-id') || '';
+            var newData = $c.data('newWidget');
+            widgets.push({
+                id: existing || '00000000-0000-0000-0000-000000000000',
+                areaSlug: $c.data('area') || $c.closest('.widget-area').data('area'),
+                widgetType: newData ? newData.widgetType : $c.find('.badge').text(),
+                title: newData ? newData.title : $c.find('.fw-semibold').text(),
+                settings: '{}',
+                order: i,
+                isActive: $c.find('.widget-active').prop('checked')
+            });
+        });
+        $.ajax({
+            url: '@Url.Action("Save")',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ widgets: widgets }),
+            headers: { 'RequestVerificationToken': $('input[name=__RequestVerificationToken]').first().val() },
+            success: function() { location.reload(); },
+            error: function() { alert('Error saving widgets.'); }
+        });
+    });
+});
+</script>
+}

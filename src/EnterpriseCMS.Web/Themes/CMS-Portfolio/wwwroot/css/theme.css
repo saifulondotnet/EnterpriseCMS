@@ -1,0 +1,109 @@
+/* CMS-Portfolio Theme */
+:root {
+    --portfolio-accent: #00d4ff;
+    --portfolio-dark: #0a0a0a;
+    --portfolio-card-bg: #1a1a1a;
+}
+
+body.portfolio-theme {
+    background: var(--portfolio-dark);
+    color: #e0e0e0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Dark header */
+.site-header .navbar-brand {
+    letter-spacing: 0.15em;
+    color: var(--portfolio-accent) !important;
+}
+
+.site-header .nav-link {
+    color: #aaa !important;
+    transition: color 0.2s;
+}
+
+.site-header .nav-link:hover {
+    color: var(--portfolio-accent) !important;
+}
+
+/* Hero overlay */
+.portfolio-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+    overflow: hidden;
+}
+
+.portfolio-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(0,212,255,0.1) 0%, transparent 60%);
+}
+
+.portfolio-hero .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.portfolio-hero h1 {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 800;
+    color: #fff;
+}
+
+.portfolio-hero .accent {
+    color: var(--portfolio-accent);
+}
+
+/* Masonry grid */
+.portfolio-grid {
+    columns: 3 300px;
+    column-gap: 1.5rem;
+}
+
+/* Portfolio card */
+.portfolio-card {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+    background: var(--portfolio-card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.portfolio-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0,212,255,0.15);
+}
+
+.portfolio-card img {
+    width: 100%;
+    display: block;
+}
+
+.portfolio-card .card-info {
+    padding: 1.25rem;
+}
+
+.portfolio-card .card-info h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.25rem;
+}
+
+.portfolio-card .card-info p {
+    font-size: 0.875rem;
+    color: #888;
+    margin: 0;
+}
+
+/* Footer */
+.portfolio-footer {
+    border-top: 1px solid #1a1a1a;
+}
