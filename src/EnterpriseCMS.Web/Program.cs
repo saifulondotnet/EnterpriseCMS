@@ -169,11 +169,14 @@ app.UseHangfireDashboard("/admin/jobs", new DashboardOptions
     Authorization = new[] { new EnterpriseCMS.Web.Extensions.HangfireAuthFilter() }
 });
 
-// Register recurring Hangfire jobs
-RecurringJob.AddOrUpdate<ScheduledContentJob>(
-    "publish-scheduled-content",
-    job => job.ExecuteAsync(),
-    Cron.Minutely);
+// Register recurring Hangfire jobs (skip in Test environment)
+if (!app.Environment.IsEnvironment("Test"))
+{
+    RecurringJob.AddOrUpdate<ScheduledContentJob>(
+        "publish-scheduled-content",
+        job => job.ExecuteAsync(),
+        Cron.Minutely);
+}
 
 // Health check endpoint
 app.MapHealthChecks("/health");
@@ -194,9 +197,10 @@ app.MapControllerRoute(
     pattern: "{slug}",
     defaults: new { controller = "Home", action = "Page" });
 
-// Apply migrations and seed reference/demo data
-using (var scope = app.Services.CreateScope())
+// Apply migrations and seed reference/demo data (skip in Test environment)
+if (!app.Environment.IsEnvironment("Test"))
 {
+    using var scope = app.Services.CreateScope();
     var initializer = scope.ServiceProvider.GetRequiredService<EnterpriseCMS.Infrastructure.Data.DbInitializer>();
     await initializer.InitialiseAsync();
 }
